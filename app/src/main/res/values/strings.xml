@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">CoolWeather</string>
+    <string name="title_activity_weather_home">" "</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="location_city">城市列表</string>
+    <string name="more_setting">更多选项</string>
+    <string name="share">分享</string>
+    <string name="setting">设置</string>
+
+    <string name="search_city_name">城市名</string>
+    <string name="no_match_result">没有匹配项</string>
+
+    <string name="location">地区</string>
+    <string name="parent_city">城市</string>
+    <string name="admin_area">省份</string>
+    <string name="cnty">国家</string>
+
+    <string name="sample">sample</string>
+    <string name="temperature_weather">26°小雨</string>
+
+    <string name="no_city_add">请点击右下角+号选择一个城市</string>
 </resources>

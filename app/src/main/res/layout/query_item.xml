@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/listPreferredItemHeight"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location" />
+
+    <TextView
+        android:id="@+id/parentCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/parent_city"
+        android:layout_marginLeft="8dp"/>
+
+    <TextView
+        android:id="@+id/adminArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_area"
+        android:layout_marginLeft="8dp"/>
+
+    <TextView
+        android:id="@+id/cnty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cnty"
+        android:layout_marginLeft="8dp"/>
+
+</LinearLayout>
