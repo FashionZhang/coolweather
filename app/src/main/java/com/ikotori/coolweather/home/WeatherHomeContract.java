@@ -21,12 +21,6 @@ public interface WeatherHomeContract {
 
         void showShareUi();
 
-        void showWeatherNowUi(WeatherNow weatherNow);
-
-        void showNoWeatherUi();
-
-        void showChangeLocation(int position);
-
         void allCitiesLoaded(List<QueryItem> cities);
 
         void showNoCityUi();
@@ -38,10 +32,6 @@ public interface WeatherHomeContract {
         void openSetting();
 
         void openShare();
-
-        void loadWeatherNow(String cid);
-
-        void changeLocation(int position);
 
         void loadAllCities();
     }

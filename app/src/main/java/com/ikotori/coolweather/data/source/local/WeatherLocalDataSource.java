@@ -17,29 +17,53 @@ public class WeatherLocalDataSource implements WeatherDataSource {
 
     private AppExecutors mAppExecutors;
 
+    private WeatherDao mWeatherDao;
 
-    public static WeatherLocalDataSource getInstance(@NonNull AppExecutors appExecutors) {
+    public static WeatherLocalDataSource getInstance(@NonNull AppExecutors appExecutors, @NonNull WeatherDao weatherDao) {
         if (null == INSTANCE) {
             synchronized (WeatherLocalDataSource.class) {
                 if (null == INSTANCE) {
-                    INSTANCE = new WeatherLocalDataSource(appExecutors);
+                    INSTANCE = new WeatherLocalDataSource(appExecutors, weatherDao);
                 }
             }
         }
         return INSTANCE;
     }
 
-    private WeatherLocalDataSource(@NonNull AppExecutors appExecutors) {
+    private WeatherLocalDataSource(@NonNull AppExecutors appExecutors, @NonNull WeatherDao weatherDao) {
         mAppExecutors = appExecutors;
+        mWeatherDao = weatherDao;
     }
 
     @Override
-    public void loadWeatherNow(String cid, LoadWeatherNowCallback callback) {
-
+    public void loadWeatherNow(final String cid, final LoadWeatherNowCallback callback) {
+        Runnable runnable =new Runnable() {
+            @Override
+            public void run() {
+                final WeatherNow now = mWeatherDao.getCityWeatherNow(cid);
+                mAppExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (now == null) {
+                            callback.loadWeatherNowFail();
+                        } else {
+                            callback.loadWeatherNowSuccess(now);
+                        }
+                    }
+                });
+            }
+        };
+        mAppExecutors.diskIO().execute(runnable);
     }
 
     @Override
-    public void insertWeatherNow(WeatherNow now) {
-
+    public void insertWeatherNow(final WeatherNow now) {
+        Runnable runnable =new Runnable() {
+            @Override
+            public void run() {
+                mWeatherDao.insertCityWeatherNow(now);
+            }
+        };
+        mAppExecutors.diskIO().execute(runnable);
     }
 }

@@ -47,7 +47,8 @@ public class WeatherHomeActivity extends AppCompatActivity {
         }
         CoolWeatherDatabase database = CoolWeatherDatabase.getInstance(getApplicationContext());
         mPresenter = new WeatherHomePresenter(fragment, WeatherHomeRepository.getInstance(CitiesLocalDataSource.getInstance(database.citiesDao(), new AppExecutors()),
-                WeatherLocalDataSource.getInstance(new AppExecutors()), WeatherRemoteDataSource.getInstance(new AppExecutors())));
+                WeatherLocalDataSource.getInstance(new AppExecutors(),database.weatherDao()), WeatherRemoteDataSource.getInstance(new AppExecutors())));
+
     }
 
 }

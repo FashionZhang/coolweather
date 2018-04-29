@@ -1,8 +1,7 @@
-package com.ikotori.coolweather.home;
+package com.ikotori.coolweather.home.weather;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,36 +9,32 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ikotori.coolweather.R;
-import com.ikotori.coolweather.data.QueryItem;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.socks.library.KLog;
-
-import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WeatherFragment extends Fragment implements WeatherHomeContract.View {
+public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     public final static String CID = "cid";
     public TextView mWeatherView;
 
-    private WeatherHomeFragment.WeatherFragmentCallBack mPresenter;
     private String cid;
 
     private boolean isVisible;
+
+    private WeatherContract.Presenter mPresenter;
     public WeatherFragment() {
         // Required empty public constructor
     }
 
 
-    public static WeatherFragment getInstance(@NonNull WeatherHomeFragment.WeatherFragmentCallBack callBack,String cid) {
+    public static WeatherFragment getInstance(String cid) {
         Bundle arguments = new Bundle();
         arguments.putString(CID, cid);
         WeatherFragment fragment = new WeatherFragment();
         fragment.setArguments(arguments);
-        fragment.mPresenter = callBack;
         return fragment;
     }
 
@@ -51,79 +46,52 @@ public class WeatherFragment extends Fragment implements WeatherHomeContract.Vie
         mWeatherView = root.findViewById(R.id.weather_now);
         Bundle intent = getArguments();
         cid = intent.getString(CID);
-        lazyLoad();
-//        mWeatherView.setText(intent.getString("weather"));
         return root;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
         isVisible = isVisibleToUser;
-        if (isVisible) {
+        if (isVisibleToUser) {
             lazyLoad();
         }
-
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     private void lazyLoad() {
         if (isVisible && getView() != null) {
-            mPresenter.loadWeatherNow(cid);
+            mPresenter.start(cid, this);
         }
     }
     @Override
     public void onResume() {
         super.onResume();
+        lazyLoad();
     }
 
     @Override
-    public void setPresenter(WeatherHomeContract.Presenter presenter) {
-
+    public void setPresenter(WeatherContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 
     @Override
     public boolean isActive() {
-        return isResumed();
+        return isVisible && getView() != null;
     }
 
     @Override
-    public void showCitySelectUi() {
-
+    public void showDataNotAvailableUi() {
+        mWeatherView.setText(cid);
     }
 
     @Override
-    public void showSettingUi() {
-
-    }
-
-    @Override
-    public void showShareUi() {
-
-    }
-
-    @Override
-    public void showWeatherNowUi(WeatherNow weatherNow) {
+    public void weatherNowLoaded(WeatherNow weatherNow) {
+        KLog.d(this);
         mWeatherView.setText(weatherNow.toString());
-        KLog.e("又重新请求了一次");
     }
 
     @Override
-    public void showNoWeatherUi() {
-
-    }
-
-    @Override
-    public void showChangeLocation(int position) {
-
-    }
-
-    @Override
-    public void allCitiesLoaded(List<QueryItem> cities) {
-
-    }
-
-    @Override
-    public void showNoCityUi() {
-
+    public void weatherNowNotAvailable() {
+        mWeatherView.setText(getString(R.string.weather_now_not_available));
     }
 }

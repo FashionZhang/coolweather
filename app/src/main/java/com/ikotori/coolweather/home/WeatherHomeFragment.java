@@ -14,10 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ikotori.coolweather.R;
+
 import com.ikotori.coolweather.cityselect.CitySelectActivity;
 import com.ikotori.coolweather.data.QueryItem;
-
-import com.ikotori.coolweather.data.entity.WeatherNow;
+import com.ikotori.coolweather.data.source.local.CitiesLocalDataSource;
+import com.ikotori.coolweather.data.source.local.CoolWeatherDatabase;
+import com.ikotori.coolweather.data.source.local.WeatherLocalDataSource;
+import com.ikotori.coolweather.data.source.remote.WeatherRemoteDataSource;
+import com.ikotori.coolweather.data.source.repository.WeatherHomeRepository;
+import com.ikotori.coolweather.home.weather.WeatherPagerAdapterPresenter;
+import com.ikotori.coolweather.home.weather.WeatherFragment;
+import com.ikotori.coolweather.util.AppExecutors;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
@@ -27,19 +34,16 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WeatherHomeFragment extends Fragment implements WeatherHomeContract.View {
-
-    private WeatherHomeContract.Presenter mPresenter;
+public class WeatherHomeFragment extends Fragment implements WeatherHomeContract.View{
 
     private ViewPager mWeatherPager;
 
-    private List<Fragment> fragments = new ArrayList<>();
+    private WeatherHomeContract.Presenter mPresenter;
 
-    private HomeViewPagerAdapter mPageAdapter;
+    // adapter实现了presenter接口,也是一个presenter
+    private WeatherPagerAdapterPresenter<WeatherFragment> mPageAdapter;
 
-    private ViewPager mWeatherContainerView;
-
-    private List<QueryItem> mCities;
+    private View mNoCityView;
 
     public WeatherHomeFragment() {
         // Required empty public constructor
@@ -66,25 +70,21 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_weather_home, container, false);
         // TODO 在这bind view
+
+        mNoCityView = root.findViewById(R.id.no_city);
         mWeatherPager = root.findViewById(R.id.weather_viewpager);
-        mPageAdapter = new HomeViewPagerAdapter(getActivity().getSupportFragmentManager());
+        CoolWeatherDatabase database = CoolWeatherDatabase.getInstance(getActivity().getApplicationContext());
+        mPageAdapter = new WeatherPagerAdapterPresenter(getActivity().getSupportFragmentManager(),
+                WeatherHomeRepository.getInstance(CitiesLocalDataSource.getInstance(database.citiesDao(), new AppExecutors()),
+                        WeatherLocalDataSource.getInstance(new AppExecutors(), database.weatherDao()),
+                        WeatherRemoteDataSource.getInstance(new AppExecutors())));
         mWeatherPager.setAdapter(mPageAdapter);
-        mWeatherPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                KLog.d(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+     /*   List<Fragment> fragments = new ArrayList<>();
+        fragments.add(WeatherFragment.getInstance("1"));
+        fragments.add(WeatherFragment.getInstance("2"));
+        fragments.add(WeatherFragment.getInstance("3"));
+        mPageAdapter.setFragments(fragments);
+        mPageAdapter.notifyDataSetChanged();*/
         setHasOptionsMenu(true);
         return root;
     }
@@ -113,6 +113,7 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
         return true;
     }
 
+
     @Override
     public void setPresenter(WeatherHomeContract.Presenter presenter) {
         mPresenter = presenter;
@@ -140,77 +141,19 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
     }
 
     @Override
-    public void showWeatherNowUi(WeatherNow weatherNow) {
-//        WeatherFragment fragment = WeatherFragment.getInstance(weatherNow.toString());
-//        mPageAdapter.addFragment(fragment);
-//        mPageAdapter.notifyDataSetChanged();
-        ((WeatherFragment) mPageAdapter.getCurrentFragment()).showWeatherNowUi(weatherNow);
-    }
-
-    @Override
-    public void showNoWeatherUi() {
-
-    }
-
-    @Override
-    public void showChangeLocation(int position) {
-
-    }
-
-    @Override
     public void allCitiesLoaded(List<QueryItem> cities) {
-        mCities = cities;
-        List<Fragment> newFragments = new ArrayList<>();
+        KLog.d(cities);
+        List<Fragment> fragments = new ArrayList<>();
         for (QueryItem city : cities) {
-            WeatherFragment fragment = WeatherFragment.getInstance(weatherFragmentPresenter, city.getCid());
-            newFragments.add(fragment);
+            WeatherFragment fragment = WeatherFragment.getInstance(city.getCid());
+            fragments.add(fragment);
         }
-        mPageAdapter.setNewFragments(newFragments);
+        mPageAdapter.setNewFragments(fragments);
         mPageAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showNoCityUi() {
-
+        mNoCityView.setVisibility(View.VISIBLE);
     }
-
-    private WeatherFragmentCallBack weatherFragmentPresenter = new WeatherFragmentCallBack() {
-        @Override
-        public void openCitySelect() {
-
-        }
-
-        @Override
-        public void openSetting() {
-
-        }
-
-        @Override
-        public void openShare() {
-
-        }
-
-        @Override
-        public void loadWeatherNow(String cid) {
-            mPresenter.loadWeatherNow(cid);
-        }
-
-        @Override
-        public void changeLocation(int position) {
-
-        }
-
-        @Override
-        public void loadAllCities() {
-
-        }
-
-        @Override
-        public void start() {
-
-        }
-    };
-    public interface WeatherFragmentCallBack extends WeatherHomeContract.Presenter {
-    }
-
 }

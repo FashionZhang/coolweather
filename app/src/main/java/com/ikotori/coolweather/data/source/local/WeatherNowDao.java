@@ -19,19 +19,19 @@ import java.util.List;
 public interface WeatherNowDao {
 
     @Query("SELECT * FROM weather_now")
-    List<WeatherNow> getAllCityWeather();
+    List<WeatherNow> getAllCityWeatherNow();
 
     @Query("SELECT * FROM weather_now WHERE cid = :cid")
-    WeatherNow getCityWeather(String cid);
+    WeatherNow getCityWeatherNow(String cid);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertCityWeather(WeatherNow now);
+    void insertCityWeatherNow(WeatherNow now);
 
     @Update
-    int updateCityWeather(WeatherNow now);
+    int updateCityWeatherNow(WeatherNow now);
 
     @Query("DELETE FROM weather_now WHERE cid = :cid")
-    int deleteByCid(String cid);
+    int deleteWeatherNowByCid(String cid);
 
     @Query("SELECT COUNT(cid) FROM weather_now")
     int countCities();

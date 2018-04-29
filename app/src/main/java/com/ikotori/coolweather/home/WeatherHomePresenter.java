@@ -3,9 +3,7 @@ package com.ikotori.coolweather.home;
 import android.support.annotation.NonNull;
 
 import com.ikotori.coolweather.data.QueryItem;
-import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.ikotori.coolweather.data.source.CitiesDataSource;
-import com.ikotori.coolweather.data.source.WeatherDataSource;
 import com.ikotori.coolweather.data.source.repository.WeatherHomeRepository;
 
 import java.util.List;
@@ -45,26 +43,6 @@ public class WeatherHomePresenter implements WeatherHomeContract.Presenter {
     @Override
     public void openShare() {
         mHomeView.showShareUi();
-    }
-
-    @Override
-    public void loadWeatherNow(String cid) {
-        mHomeRepository.loadWeatherNow(cid, new WeatherDataSource.LoadWeatherNowCallback() {
-            @Override
-            public void loadWeatherNowSuccess(WeatherNow now) {
-                mHomeView.showWeatherNowUi(now);
-            }
-
-            @Override
-            public void loadWeatherNowFail() {
-                mHomeView.showNoWeatherUi();
-            }
-        });
-    }
-
-    @Override
-    public void changeLocation(int position) {
-
     }
 
     @Override

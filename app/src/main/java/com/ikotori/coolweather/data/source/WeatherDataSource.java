@@ -19,4 +19,5 @@ public interface WeatherDataSource {
     void loadWeatherNow(String cid, LoadWeatherNowCallback callback);
 
     void insertWeatherNow(WeatherNow now);
+
 }

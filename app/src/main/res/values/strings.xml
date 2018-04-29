@@ -23,4 +23,8 @@
     <string name="temperature_weather">26°小雨</string>
 
     <string name="no_city_add">请点击右下角+号选择一个城市</string>
+    <string name="no_city_add_home">请点击右上角城市图标选择一个城市</string>
+
+    <!--weatherHone 数据获取失败-->
+    <string name="weather_now_not_available">当前没有实时天气数据</string>
 </resources>
