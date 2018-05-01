@@ -7,6 +7,6 @@ import android.arch.persistence.room.Dao;
  * Describe:
  */
 @Dao
-public interface WeatherDao extends WeatherNowDao {
+public interface WeatherDao extends WeatherNowDao, WeatherForecastDao, WeatherHourlyDao, AirNowDao {
 
 }

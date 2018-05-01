@@ -7,9 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.ikotori.coolweather.data.entity.WeatherForecast;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.ikotori.coolweather.data.source.WeatherDataSource;
 import com.ikotori.coolweather.data.source.repository.WeatherHomeRepository;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,13 +83,15 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
     @Override
     public void start(@NonNull String cid, @NonNull WeatherContract.View view) {
         loadWeatherNow(cid, view);
+        loadWeatherForecast(cid, view);
     }
 
     @Override
     public void loadWeatherNow(@NonNull String cid, @NonNull final WeatherContract.View view) {
         mRepository.loadWeatherNow(cid, new WeatherDataSource.LoadWeatherNowCallback() {
+
             @Override
-            public void loadWeatherNowSuccess(WeatherNow now) {
+            public void loadWeatherNowSucceeded(WeatherNow now) {
                 // TODO 内存缓存
                 if (view.isActive()) {
                     view.weatherNowLoaded(now);
@@ -95,9 +99,29 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
             }
 
             @Override
-            public void loadWeatherNowFail() {
+            public void loadWeatherNowFailed() {
                 if (view.isActive()) {
                     view.weatherNowNotAvailable();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void loadWeatherForecast(@NonNull String cid, @NonNull final WeatherContract.View view) {
+        mRepository.loadWeatherForecasts(cid, new WeatherDataSource.LoadWeatherForecastCallback() {
+            @Override
+            public void loadWeatherForecastSucceeded(List<WeatherForecast> forecasts) {
+                if (view.isActive()) {
+                    view.weatherForecastsLoaded(forecasts);
+
+                }
+            }
+
+            @Override
+            public void loadWeatherForecastFailed() {
+                if (view.isActive()) {
+                    view.weatherForecastsNotAvailable();
                 }
             }
         });

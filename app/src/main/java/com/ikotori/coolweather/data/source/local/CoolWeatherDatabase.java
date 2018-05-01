@@ -6,13 +6,16 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.ikotori.coolweather.data.QueryItem;
+import com.ikotori.coolweather.data.entity.AirNow;
+import com.ikotori.coolweather.data.entity.WeatherForecast;
+import com.ikotori.coolweather.data.entity.WeatherHourly;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 
 /**
  * Created by Fashion at 2018/04/21 14:43.
  * Describe:
  */
-@Database(entities = {QueryItem.class, WeatherNow.class}, version = 2, exportSchema = false)
+@Database(entities = {QueryItem.class, WeatherNow.class, WeatherForecast.class, WeatherHourly.class, AirNow.class}, version = 3, exportSchema = false)
 public abstract class CoolWeatherDatabase extends RoomDatabase {
 
     private static CoolWeatherDatabase INSTANCE;

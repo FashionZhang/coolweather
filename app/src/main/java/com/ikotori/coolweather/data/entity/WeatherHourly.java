@@ -2,6 +2,7 @@ package com.ikotori.coolweather.data.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -10,30 +11,33 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by Fashion at 2018/04/22 11:23.
- * Describe: 实况天气
+ * Created by Fashion at 2018/04/29 21:00.
+ * Describe:逐小时天气
  */
 
-@Entity(tableName = "weather_now")
-public class WeatherNow implements Serializable {
+@Entity(tableName = "weather_hourly")
+public class WeatherHourly implements Serializable {
+
+    @ColumnInfo
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
 
     @ColumnInfo(name = "cid")
-    @PrimaryKey
     @NonNull
     //城市id
     private String cid;
 
-    @ColumnInfo(name = "fl")
-    // 体感温度,默认:摄氏度
-    private String fl;
+    @ColumnInfo(name = "time")
+    //预报时间，格式yyyy-MM-dd HH:mm
+    private String time;
 
     @ColumnInfo(name = "tmp")
-    // 温度,默认:摄氏度
+    //温度
     private String tmp;
 
     @ColumnInfo(name = "cond_code")
     @SerializedName("cond_code")
-    //实况天气状况代码
+    //天气状况代码
     private String condCode;
 
     @ColumnInfo(name = "cond_txt")
@@ -65,17 +69,17 @@ public class WeatherNow implements Serializable {
     //相对湿度
     private String hum;
 
-    @ColumnInfo(name = "pcpn")
-    //降水量
-    private String pcpn;
-
     @ColumnInfo(name = "pres")
     //大气压强
     private String pres;
 
-    @ColumnInfo(name = "vis")
-    //能见度,默认单位:公里
-    private String vis;
+    @ColumnInfo(name = "pop")
+    //降水概率,百分比
+    private String pop;
+
+    @ColumnInfo(name = "dew")
+    //露点温度
+    private String dew;
 
     @ColumnInfo(name = "cloud")
     //云量
@@ -85,15 +89,10 @@ public class WeatherNow implements Serializable {
     //更新时间,当地时间
     private String loc;
 
-    @ColumnInfo(name = "utc")
-    //更新时间,UTC时间
-    private String utc;
-
-    private String location;
-
-    public WeatherNow(@NonNull String cid, String fl, String tmp, String condCode, String condTxt, String windDeg, String windDir, String windSc, String windSpd, String hum, String pcpn, String pres, String vis, String cloud, String loc, String utc) {
+    @Ignore
+    public WeatherHourly(@NonNull String cid, String time, String tmp, String condCode, String condTxt, String windDeg, String windDir, String windSc, String windSpd, String hum, String pres, String pop, String dew, String cloud, String loc) {
         this.cid = cid;
-        this.fl = fl;
+        this.time = time;
         this.tmp = tmp;
         this.condCode = condCode;
         this.condTxt = condTxt;
@@ -102,12 +101,38 @@ public class WeatherNow implements Serializable {
         this.windSc = windSc;
         this.windSpd = windSpd;
         this.hum = hum;
-        this.pcpn = pcpn;
         this.pres = pres;
-        this.vis = vis;
+        this.pop = pop;
+        this.dew = dew;
         this.cloud = cloud;
         this.loc = loc;
-        this.utc = utc;
+    }
+
+    public WeatherHourly(int uid, @NonNull String cid, String time, String tmp, String condCode, String condTxt, String windDeg, String windDir, String windSc, String windSpd, String hum, String pres, String pop, String dew, String cloud, String loc) {
+        this.uid = uid;
+        this.cid = cid;
+        this.time = time;
+        this.tmp = tmp;
+        this.condCode = condCode;
+        this.condTxt = condTxt;
+        this.windDeg = windDeg;
+        this.windDir = windDir;
+        this.windSc = windSc;
+        this.windSpd = windSpd;
+        this.hum = hum;
+        this.pres = pres;
+        this.pop = pop;
+        this.dew = dew;
+        this.cloud = cloud;
+        this.loc = loc;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     @NonNull
@@ -119,12 +144,12 @@ public class WeatherNow implements Serializable {
         this.cid = cid;
     }
 
-    public String getFl() {
-        return fl;
+    public String getTime() {
+        return time;
     }
 
-    public void setFl(String fl) {
-        this.fl = fl;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getTmp() {
@@ -191,14 +216,6 @@ public class WeatherNow implements Serializable {
         this.hum = hum;
     }
 
-    public String getPcpn() {
-        return pcpn;
-    }
-
-    public void setPcpn(String pcpn) {
-        this.pcpn = pcpn;
-    }
-
     public String getPres() {
         return pres;
     }
@@ -207,12 +224,20 @@ public class WeatherNow implements Serializable {
         this.pres = pres;
     }
 
-    public String getVis() {
-        return vis;
+    public String getPop() {
+        return pop;
     }
 
-    public void setVis(String vis) {
-        this.vis = vis;
+    public void setPop(String pop) {
+        this.pop = pop;
+    }
+
+    public String getDew() {
+        return dew;
+    }
+
+    public void setDew(String dew) {
+        this.dew = dew;
     }
 
     public String getCloud() {
@@ -229,44 +254,5 @@ public class WeatherNow implements Serializable {
 
     public void setLoc(String loc) {
         this.loc = loc;
-    }
-
-    public String getUtc() {
-        return utc;
-    }
-
-    public void setUtc(String utc) {
-        this.utc = utc;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    @Override
-    public String toString() {
-        return "WeatherNow{" +
-                "cid='" + cid + '\'' +
-                ", fl='" + fl + '\'' +
-                ", tmp='" + tmp + '\'' +
-                ", condCode='" + condCode + '\'' +
-                ", condTxt='" + condTxt + '\'' +
-                ", windDeg='" + windDeg + '\'' +
-                ", windDir='" + windDir + '\'' +
-                ", windSc='" + windSc + '\'' +
-                ", windSpd='" + windSpd + '\'' +
-                ", hum='" + hum + '\'' +
-                ", pcpn='" + pcpn + '\'' +
-                ", pres='" + pres + '\'' +
-                ", vis='" + vis + '\'' +
-                ", cloud='" + cloud + '\'' +
-                ", loc='" + loc + '\'' +
-                ", utc='" + utc + '\'' +
-                ", location='" + location + '\'' +
-                '}';
     }
 }

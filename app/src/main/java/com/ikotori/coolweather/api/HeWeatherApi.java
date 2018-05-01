@@ -9,13 +9,23 @@ import android.support.annotation.Nullable;
  */
 
 public class HeWeatherApi {
-    public final static String BODY_TAG = "HeWeather6";
-    public final static String KEY = "f44a28a9fc8942089faf4a3095f56088";
-    public final static String GROUP_DEFAULT = "cn";
-    public final static String DEFAULT_LANG = "zh_cn";
-    public final static String CITY_SEARCH_BASE = "https://search.heweather.com/find";
+    public static final String BODY_TAG = "HeWeather6";
+    public static final String KEY = "f44a28a9fc8942089faf4a3095f56088";
+    public static final String GROUP_DEFAULT = "cn";
+    public static final String DEFAULT_LANG = "zh_cn";
+    public static final String CITY_SEARCH_BASE = "https://search.heweather.com/find";
 
-    public final static String WEATHER_NOW = "https://free-api.heweather.com/s6/weather/now";
+    //实况天气API
+    public static final String WEATHER_NOW = "https://free-api.heweather.com/s6/weather/now";
+
+    //3-10天天气预报API
+    public static final String WEATHER_FORECAST = "https://free-api.heweather.com/s6/weather/forecast";
+
+    //逐小时天气预报API
+    public static final String WEATHER_HOURLY = "https://free-api.heweather.com/s6/weather/hourly";
+
+    //天气质量实况API
+    public static final String AIR_NOW = "https://free-api.heweather.com/s6/air/now";
 
     public static HeWeatherApi INSTANCE;
 
@@ -36,9 +46,10 @@ public class HeWeatherApi {
 
     /**
      * 构建查询城市接口的请求url
-     * @param prefix  查询url
-     * @param location  查询的地区或城市
-     * @param number  查询返回多少条结果,默认10条
+     *
+     * @param prefix   查询url
+     * @param location 查询的地区或城市
+     * @param number   查询返回多少条结果,默认10条
      * @return
      */
     public String buildCitySearchUrl(String prefix, String location, @Nullable String number) {
@@ -52,10 +63,41 @@ public class HeWeatherApi {
 
     /**
      * 构建查询实时天气接口的请求url
+     *
      * @param location 城市cid,拼音,城市名等
      * @return
      */
     public String buildWeatherNowUrl(String location) {
         return String.format("%s?key=%s&location=%s", WEATHER_NOW, KEY, Uri.encode(location));
+    }
+
+    /**
+     * 构建3-10天天气预报接口的请求url
+     *
+     * @param location
+     * @return
+     */
+    public String buildWeatherForecast(String location) {
+        return String.format("%s?key=%s&location=%s", WEATHER_FORECAST, KEY, Uri.encode(location));
+    }
+
+    /**
+     * 构建逐小时天气预报接口的请求url
+     *
+     * @param location
+     * @return
+     */
+    public String buildWeatherHourly(String location) {
+        return String.format("%s?key=%s&location=%s", WEATHER_HOURLY, KEY, Uri.encode(location));
+    }
+
+    /**
+     * 构建空气质量实况接口的请求url
+     *
+     * @param location
+     * @return
+     */
+    public String buildAirNow(String location) {
+        return String.format("%s?key=%s&location=%s", WEATHER_HOURLY, KEY, Uri.encode(location));
     }
 }

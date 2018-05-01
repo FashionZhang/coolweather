@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ikotori.coolweather.R;
+import com.ikotori.coolweather.data.entity.WeatherForecast;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.socks.library.KLog;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,5 +96,16 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     @Override
     public void weatherNowNotAvailable() {
         mWeatherView.setText(getString(R.string.weather_now_not_available));
+    }
+
+    @Override
+    public void weatherForecastsLoaded(List<WeatherForecast> forecasts) {
+        String o = mWeatherView.getText().toString();
+        mWeatherView.setText(o + forecasts);
+    }
+
+    @Override
+    public void weatherForecastsNotAvailable() {
+
     }
 }

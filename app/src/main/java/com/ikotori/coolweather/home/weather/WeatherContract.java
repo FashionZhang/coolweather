@@ -4,7 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.ikotori.coolweather.BasePresenter;
 import com.ikotori.coolweather.BaseView;
+import com.ikotori.coolweather.data.entity.WeatherForecast;
 import com.ikotori.coolweather.data.entity.WeatherNow;
+
+import java.util.List;
 
 /**
  * Created by Fashion at 2018/04/26 21:28.
@@ -21,12 +24,18 @@ public interface WeatherContract {
 
         void weatherNowNotAvailable();
 
+        void weatherForecastsLoaded(List<WeatherForecast> forecasts);
+
+        void weatherForecastsNotAvailable();
+
     }
 
     public interface Presenter extends BasePresenter {
         void start(@NonNull String cid, @NonNull View view);
 
         void loadWeatherNow(@NonNull String cid, @NonNull View view);
+
+        void loadWeatherForecast(@NonNull String cid, @NonNull View view);
 
     }
 }
