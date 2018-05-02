@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.ikotori.coolweather.R;
 import com.ikotori.coolweather.data.entity.WeatherForecast;
 import com.ikotori.coolweather.data.entity.WeatherNow;
+import com.ikotori.coolweather.home.weather.Views.WeatherForecastViews;
+import com.ikotori.coolweather.home.weather.Views.WeatherHourliesViews;
+import com.ikotori.coolweather.home.weather.Views.WeatherNowViews;
 import com.socks.library.KLog;
 
 import java.util.List;
@@ -26,6 +29,12 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     private String cid;
 
     private boolean isVisible;
+
+    private WeatherNowViews mWeatherNowViews;
+
+    private WeatherForecastViews mWeatherForecastViews;
+
+    private WeatherHourliesViews mWeatherHourliesViews;
 
     private WeatherContract.Presenter mPresenter;
     public WeatherFragment() {
@@ -49,6 +58,11 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         mWeatherView = root.findViewById(R.id.weather_now);
         Bundle intent = getArguments();
         cid = intent.getString(CID);
+
+        mWeatherNowViews = new WeatherNowViews(root);
+        mWeatherForecastViews = new WeatherForecastViews(root);
+        mWeatherHourliesViews = new WeatherHourliesViews(root);
+
         return root;
     }
 
@@ -90,18 +104,19 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     @Override
     public void weatherNowLoaded(WeatherNow weatherNow) {
         KLog.d(this);
-        mWeatherView.setText(weatherNow.toString());
+        mWeatherNowViews.setWeatherNow(weatherNow);
     }
 
     @Override
     public void weatherNowNotAvailable() {
-        mWeatherView.setText(getString(R.string.weather_now_not_available));
+//        mWeatherView.setText(getString(R.string.weather_now_not_available));
     }
 
     @Override
     public void weatherForecastsLoaded(List<WeatherForecast> forecasts) {
-        String o = mWeatherView.getText().toString();
-        mWeatherView.setText(o + forecasts);
+        KLog.d(forecasts);
+        mWeatherNowViews.setWeatherTmp(forecasts.get(0));
+        mWeatherForecastViews.fillData(forecasts, getActivity());
     }
 
     @Override

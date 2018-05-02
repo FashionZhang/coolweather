@@ -27,4 +27,9 @@
 
     <!--weatherHone 数据获取失败-->
     <string name="weather_now_not_available">当前没有实时天气数据</string>
+
+    <!--当前天气-->
+    <string name="temperature_degree_default">°</string>
+    <string name="temperature_degree_celsius">℃</string>
+    <string name="temperature_degree_fahrenheit">℉</string>
 </resources>

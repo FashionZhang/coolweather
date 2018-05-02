@@ -98,6 +98,6 @@ public class HeWeatherApi {
      * @return
      */
     public String buildAirNow(String location) {
-        return String.format("%s?key=%s&location=%s", WEATHER_HOURLY, KEY, Uri.encode(location));
+        return String.format("%s?key=%s&location=%s", AIR_NOW, KEY, Uri.encode(location));
     }
 }

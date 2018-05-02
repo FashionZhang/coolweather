@@ -1,3 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="now_textSize">24sp</dimen>
+    <dimen name="forecast_textSize">18sp</dimen>
+    <dimen name="field_margin_left">8dp</dimen>
+    <dimen name="hourly_textSize">18sp</dimen>
 </resources>
