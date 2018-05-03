@@ -32,4 +32,21 @@
     <string name="temperature_degree_default">°</string>
     <string name="temperature_degree_celsius">℃</string>
     <string name="temperature_degree_fahrenheit">℉</string>
+
+    <!--空气质量-->
+    <string name="air_now_qlty">空气质量</string>
+    <string name="air_now_pub_time">数据发布时间</string>
+    <string name="air_now_aqi">空气质量指数</string>
+    <string name="air_now_main">主要污染物</string>
+    <string name="air_now_pm10">pm10</string>
+    <string name="air_now_pm25">pm25</string>
+    <string name="air_now_no2">二氧化氮</string>
+    <string name="air_now_so2">二氧化硫</string>
+    <string name="air_now_o3">臭氧</string>
+    <string name="air_now_co">一氧化碳</string>
+    <string name="weather_now_fl">体感温度</string>
+    <string name="weather_now_wind_dir">风向</string>
+    <string name="weather_now_hum">湿度</string>
+    <string name="weather_now_vis">能见度</string>
+    <string name="weather_now_pres">气压</string>
 </resources>

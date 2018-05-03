@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.ikotori.coolweather.BasePresenter;
 import com.ikotori.coolweather.BaseView;
+import com.ikotori.coolweather.data.entity.AirNow;
 import com.ikotori.coolweather.data.entity.WeatherForecast;
+import com.ikotori.coolweather.data.entity.WeatherHourly;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 
 import java.util.List;
@@ -28,6 +30,13 @@ public interface WeatherContract {
 
         void weatherForecastsNotAvailable();
 
+        void WeatherHourliesLoaded(List<WeatherHourly> hourlies);
+
+        void WeatherHourliesNotAvailable();
+
+        void AirNowLoaded(AirNow now);
+
+        void AirNowNotAvailable();
     }
 
     public interface Presenter extends BasePresenter {
@@ -37,5 +46,8 @@ public interface WeatherContract {
 
         void loadWeatherForecast(@NonNull String cid, @NonNull View view);
 
+        void loadWeatherHourlies(@NonNull String cid, @NonNull View view);
+
+        void loadAirNow(@NonNull String cid, @NonNull View view);
     }
 }

@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.ikotori.coolweather.data.entity.AirNow;
 import com.ikotori.coolweather.data.entity.WeatherForecast;
+import com.ikotori.coolweather.data.entity.WeatherHourly;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.ikotori.coolweather.data.source.WeatherDataSource;
 import com.ikotori.coolweather.data.source.repository.WeatherHomeRepository;
@@ -21,7 +23,7 @@ import java.util.List;
  * Describe:
  */
 
-public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends FragmentPagerAdapter implements WeatherContract.Presenter{
+public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends FragmentPagerAdapter implements WeatherContract.Presenter {
 
     private List<Fragment> mFragments = new ArrayList<>();
 
@@ -49,7 +51,7 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            mCurrentView = (T)object;
+        mCurrentView = (T) object;
         super.setPrimaryItem(container, position, object);
     }
 
@@ -67,6 +69,7 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
 
     /**
      * 判断当前view是否已经切换
+     *
      * @param view
      * @return
      */
@@ -84,6 +87,8 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
     public void start(@NonNull String cid, @NonNull WeatherContract.View view) {
         loadWeatherNow(cid, view);
         loadWeatherForecast(cid, view);
+        loadWeatherHourlies(cid, view);
+        loadAirNow(cid, view);
     }
 
     @Override
@@ -122,6 +127,44 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
             public void loadWeatherForecastFailed() {
                 if (view.isActive()) {
                     view.weatherForecastsNotAvailable();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void loadWeatherHourlies(@NonNull String cid, @NonNull final WeatherContract.View view) {
+        mRepository.loadWeatherHourlies(cid, new WeatherDataSource.LoadWeatherHourlyCallback() {
+            @Override
+            public void loadWeatherHourliesSucceeded(List<WeatherHourly> hourlies) {
+                if (view.isActive()) {
+                    view.WeatherHourliesLoaded(hourlies);
+                }
+            }
+
+            @Override
+            public void loadWeatherHourliesFailed() {
+                if (view.isActive()) {
+                    view.WeatherHourliesNotAvailable();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void loadAirNow(@NonNull String cid, @NonNull final WeatherContract.View view) {
+        mRepository.loadAirNow(cid, new WeatherDataSource.LoadAirNowCallback() {
+            @Override
+            public void loadAirNowSucceeded(AirNow now) {
+                if (view.isActive()) {
+                    view.AirNowLoaded(now);
+                }
+            }
+
+            @Override
+            public void loadAirNowFailed() {
+                if (view.isActive()) {
+                    view.AirNowNotAvailable();
                 }
             }
         });

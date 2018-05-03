@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ikotori.coolweather.R;
+import com.ikotori.coolweather.data.entity.AirNow;
 import com.ikotori.coolweather.data.entity.WeatherForecast;
+import com.ikotori.coolweather.data.entity.WeatherHourly;
 import com.ikotori.coolweather.data.entity.WeatherNow;
+import com.ikotori.coolweather.home.weather.Views.AirNowViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherForecastViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherHourliesViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherNowViews;
@@ -35,6 +38,8 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     private WeatherForecastViews mWeatherForecastViews;
 
     private WeatherHourliesViews mWeatherHourliesViews;
+
+    private AirNowViews mAirNowViews;
 
     private WeatherContract.Presenter mPresenter;
     public WeatherFragment() {
@@ -62,6 +67,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         mWeatherNowViews = new WeatherNowViews(root);
         mWeatherForecastViews = new WeatherForecastViews(root);
         mWeatherHourliesViews = new WeatherHourliesViews(root);
+        mAirNowViews = new AirNowViews(root);
 
         return root;
     }
@@ -105,6 +111,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     public void weatherNowLoaded(WeatherNow weatherNow) {
         KLog.d(this);
         mWeatherNowViews.setWeatherNow(weatherNow);
+        mAirNowViews.setWeatherNowData(weatherNow);
     }
 
     @Override
@@ -121,6 +128,26 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     @Override
     public void weatherForecastsNotAvailable() {
+
+    }
+
+    @Override
+    public void WeatherHourliesLoaded(List<WeatherHourly> hourlies) {
+        mWeatherHourliesViews.setHourlies(hourlies);
+    }
+
+    @Override
+    public void WeatherHourliesNotAvailable() {
+
+    }
+
+    @Override
+    public void AirNowLoaded(AirNow now) {
+        mAirNowViews.setAirNowData(now);
+    }
+
+    @Override
+    public void AirNowNotAvailable() {
 
     }
 }
