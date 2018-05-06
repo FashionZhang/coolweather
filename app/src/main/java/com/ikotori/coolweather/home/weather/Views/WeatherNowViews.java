@@ -37,7 +37,7 @@ public class WeatherNowViews {
     }
 
     public void setWeatherTmp(WeatherForecast forecast) {
-        mNowTmpMaxView.setText(forecast.tmpMax);
-        mNowTmpMinView.setText(forecast.tmpMin);
+        mNowTmpMaxView.setText(String.valueOf(forecast.tmpMax));
+        mNowTmpMinView.setText(String.valueOf(forecast.tmpMin));
     }
 }

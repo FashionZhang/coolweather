@@ -270,7 +270,7 @@ public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSourc
 
                 @Override
                 public void loadAirNowFailed() {
-                    callback.loadAirNowFailed();
+                    getAirNowRemote(cid, callback);
                 }
             });
         }
