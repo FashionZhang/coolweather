@@ -11,8 +11,9 @@
     <string name="share">分享</string>
     <string name="setting">设置</string>
 
-    <string name="search_city_name">城市名</string>
+    <string name="search_city_name">城市或地区</string>
     <string name="no_match_result">没有匹配项</string>
+    <string name="quick_weather_guide">输入城市或地区名称即可快速查看天气</string>
 
     <string name="location">地区</string>
     <string name="parent_city">城市</string>
@@ -27,6 +28,7 @@
 
     <!--weatherHone 数据获取失败-->
     <string name="weather_now_not_available">当前没有实时天气数据</string>
+    <string name="weather_not_available">没有查询到天气数据,请稍后重试</string>
 
     <!--当前天气-->
     <string name="temperature_degree_default">°</string>
@@ -49,4 +51,8 @@
     <string name="weather_now_hum">湿度</string>
     <string name="weather_now_vis">能见度</string>
     <string name="weather_now_pres">气压</string>
+    <!--底部导航栏-->
+    <string name="weather_nome">天气</string>
+    <string name="quick_weather">快速搜索</string>
+    <string name="travel_weather">旅途天气</string>
 </resources>

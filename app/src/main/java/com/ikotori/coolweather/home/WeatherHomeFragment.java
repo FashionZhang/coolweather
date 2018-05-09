@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,6 +46,8 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
 
     private View mNoCityView;
 
+    private Toolbar mToolbar;
+
     public WeatherHomeFragment() {
         // Required empty public constructor
     }
@@ -56,17 +59,20 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter.start();
     }
 
     @Override
     public void onResume() {
+        mToolbar.getMenu().clear();
+        mToolbar.inflateMenu(R.menu.home_menu);
         super.onResume();
-        mPresenter.start();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        KLog.e();
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_weather_home, container, false);
         // TODO 在这bind view
@@ -74,17 +80,13 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
         mNoCityView = root.findViewById(R.id.no_city);
         mWeatherPager = root.findViewById(R.id.weather_viewpager);
         CoolWeatherDatabase database = CoolWeatherDatabase.getInstance(getActivity().getApplicationContext());
-        mPageAdapter = new WeatherPagerAdapterPresenter(getActivity().getSupportFragmentManager(),
+        mPageAdapter = new WeatherPagerAdapterPresenter(getChildFragmentManager(),
                 WeatherHomeRepository.getInstance(CitiesLocalDataSource.getInstance(database.citiesDao(), new AppExecutors()),
                         WeatherLocalDataSource.getInstance(new AppExecutors(), database.weatherDao()),
                         WeatherRemoteDataSource.getInstance(new AppExecutors())));
         mWeatherPager.setAdapter(mPageAdapter);
-     /*   List<Fragment> fragments = new ArrayList<>();
-        fragments.add(WeatherFragment.getInstance("1"));
-        fragments.add(WeatherFragment.getInstance("2"));
-        fragments.add(WeatherFragment.getInstance("3"));
-        mPageAdapter.setFragments(fragments);
-        mPageAdapter.notifyDataSetChanged();*/
+        mToolbar = (Toolbar) root.findViewById(R.id.toolbar);
+        ((WeatherHomeActivity)getActivity()).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
         return root;
     }
@@ -155,5 +157,17 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
     @Override
     public void showNoCityUi() {
         mNoCityView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDestroy() {
+        KLog.d();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        KLog.d();
+        super.onDetach();
     }
 }
