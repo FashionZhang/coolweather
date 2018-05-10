@@ -11,9 +11,11 @@ import com.ikotori.coolweather.customview.NavigationViewPager;
 import com.ikotori.coolweather.data.source.local.CitiesLocalDataSource;
 import com.ikotori.coolweather.data.source.local.CoolWeatherDatabase;
 import com.ikotori.coolweather.data.source.local.WeatherLocalDataSource;
+import com.ikotori.coolweather.data.source.remote.BaiduMapDataRemoteSource;
 import com.ikotori.coolweather.data.source.remote.QueryRemoteDataSource;
 import com.ikotori.coolweather.data.source.remote.WeatherRemoteDataSource;
 import com.ikotori.coolweather.data.source.repository.QuickWeatherRepository;
+import com.ikotori.coolweather.data.source.repository.TravelWeatherRepository;
 import com.ikotori.coolweather.data.source.repository.WeatherHomeRepository;
 import com.ikotori.coolweather.home.quickweather.QuickWeatherFragment;
 import com.ikotori.coolweather.home.quickweather.QuickWeatherPresenter;
@@ -53,7 +55,7 @@ public class WeatherHomeActivity extends AppCompatActivity {
         mWeatherPresenter = new WeatherHomePresenter(weatherHomeFragment, WeatherHomeRepository.getInstance(CitiesLocalDataSource.getInstance(database.citiesDao(), new AppExecutors()),
                 WeatherLocalDataSource.getInstance(new AppExecutors(), database.weatherDao()), WeatherRemoteDataSource.getInstance(new AppExecutors())));
         mQuickPresenter = new QuickWeatherPresenter(quickWeatherFragment, QuickWeatherRepository.getInstance(QueryRemoteDataSource.getInstance(),WeatherRemoteDataSource.getInstance(new AppExecutors())));
-        mTravelPresenter = new TravelWeatherPresenter(travelWeatherFragment);
+        mTravelPresenter = new TravelWeatherPresenter(travelWeatherFragment, TravelWeatherRepository.getInstance(BaiduMapDataRemoteSource.getInstance(new AppExecutors()), QueryRemoteDataSource.getInstance()));
 
         BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
