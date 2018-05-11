@@ -37,6 +37,8 @@ public interface WeatherContract {
         void AirNowLoaded(AirNow now);
 
         void AirNowNotAvailable();
+
+        void changeToolBarTitle();
     }
 
     public interface Presenter extends BasePresenter {

@@ -58,6 +58,7 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
     @Override
     public Fragment getItem(int position) {
         ((T) mFragments.get(position)).setPresenter(this);
+        ((T) mFragments.get(position)).changeToolBarTitle();
         return mFragments.get(position);
     }
 

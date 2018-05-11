@@ -27,9 +27,16 @@ import java.util.List;
 public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     public final static String CID = "cid";
+    public final static String LOCATION = "location";
+    public static final String ISHOME = "isHome";
     public TextView mWeatherView;
 
     private String cid;
+    private String location;
+    private Boolean isHome;
+
+    //天气信息更新时间
+    private String updateTime;
 
     private boolean isVisible;
 
@@ -47,9 +54,11 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     }
 
 
-    public static WeatherFragment getInstance(String cid) {
+    public static WeatherFragment getInstance(String cid, String location, Boolean isHome) {
         Bundle arguments = new Bundle();
         arguments.putString(CID, cid);
+        arguments.putString(LOCATION, location);
+        arguments.putBoolean(ISHOME, isHome);
         WeatherFragment fragment = new WeatherFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -63,6 +72,8 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         mWeatherView = root.findViewById(R.id.weather_now);
         Bundle intent = getArguments();
         cid = intent.getString(CID);
+        location = intent.getString(LOCATION);
+        isHome = intent.getBoolean(ISHOME);
 
         mWeatherNowViews = new WeatherNowViews(root);
         mWeatherForecastViews = new WeatherForecastViews(root);
@@ -109,9 +120,10 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     @Override
     public void weatherNowLoaded(WeatherNow weatherNow) {
-        KLog.d(this);
         mWeatherNowViews.setWeatherNow(weatherNow);
         mAirNowViews.setWeatherNowData(weatherNow);
+        updateTime = weatherNow.getLoc();
+        showToolBarTitle(location, weatherNow.getLoc(), isHome);
     }
 
     @Override
@@ -149,5 +161,25 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     @Override
     public void AirNowNotAvailable() {
 
+    }
+
+    @Override
+    public void changeToolBarTitle() {
+        if (null == updateTime) {
+
+        } else {
+            showToolBarTitle(location,updateTime,isHome);
+        }
+    }
+
+    private void showToolBarTitle(String title, String subTitle, boolean isHome) {
+        KLog.d(title, subTitle, isHome);
+        if (getParentFragment() instanceof ToolBarTitleListener) {
+            ((ToolBarTitleListener) getParentFragment()).showToolbarTitle(title,subTitle,isHome);
+        }
+    }
+
+    public interface ToolBarTitleListener {
+        void showToolbarTitle(String title, String subTitle, Boolean isHome);
     }
 }

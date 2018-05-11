@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,7 +36,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WeatherHomeFragment extends Fragment implements WeatherHomeContract.View{
+public class WeatherHomeFragment extends Fragment implements WeatherHomeContract.View, WeatherFragment.ToolBarTitleListener{
 
     private ViewPager mWeatherPager;
 
@@ -47,6 +48,8 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
     private View mNoCityView;
 
     private Toolbar mToolbar;
+
+    private ActionBar mActionBar;
 
     public WeatherHomeFragment() {
         // Required empty public constructor
@@ -87,6 +90,7 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
         mWeatherPager.setAdapter(mPageAdapter);
         mToolbar = (Toolbar) root.findViewById(R.id.toolbar);
         ((WeatherHomeActivity)getActivity()).setSupportActionBar(mToolbar);
+        mActionBar = ((WeatherHomeActivity) getActivity()).getSupportActionBar();
         setHasOptionsMenu(true);
         return root;
     }
@@ -110,6 +114,8 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
                 break;
             case R.id.share:
                 mPresenter.openShare();
+                break;
+            case android.R.id.home:
                 break;
         }
         return true;
@@ -147,7 +153,7 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
         KLog.d(cities);
         List<Fragment> fragments = new ArrayList<>();
         for (QueryItem city : cities) {
-            WeatherFragment fragment = WeatherFragment.getInstance(city.getCid());
+            WeatherFragment fragment = WeatherFragment.getInstance(city.getCid(), city.getLocation(), city.isHome());
             fragments.add(fragment);
         }
         mPageAdapter.setNewFragments(fragments);
@@ -169,5 +175,21 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
     public void onDetach() {
         KLog.d();
         super.onDetach();
+    }
+
+    @Override
+    public void showToolbarTitle(String title, String subTitle, Boolean isHome) {
+        if (mToolbar != null) {
+            mToolbar.setTitle(title);
+            mToolbar.setSubtitle(subTitle);
+            if (isHome) {
+                mActionBar.setDisplayShowHomeEnabled(true);
+                mActionBar.setDisplayHomeAsUpEnabled(true);
+                mToolbar.setNavigationIcon(R.drawable.ic_home_white_24dp);
+            } else {
+                mActionBar.setDisplayShowHomeEnabled(false);
+                mActionBar.setDisplayHomeAsUpEnabled(false);
+            }
+        }
     }
 }

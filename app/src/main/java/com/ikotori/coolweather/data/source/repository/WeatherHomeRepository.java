@@ -205,6 +205,7 @@ public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSourc
                 && (weather = mCacheWeather.get(cid)) != null
                 && (weatherHourlies = weather.getWeatherHourlies()) != null) {
             callback.loadWeatherHourliesSucceeded(weatherHourlies);
+            return;
         }
         if (mCacheWeatherHourliesIsInvalid) {
             getWeatherHourliesRemote(cid, callback);
@@ -257,6 +258,7 @@ public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSourc
                 && (weather = mCacheWeather.get(cid)) != null
                 && (airNow = weather.getAirNow()) != null) {
             callback.loadAirNowSucceeded(airNow);
+            return;
         }
         if (mCacheAirNowIsInvalid) {
             getAirNowRemote(cid, callback);

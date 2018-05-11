@@ -12,6 +12,7 @@ import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.ikotori.coolweather.data.source.WeatherDataSource;
 import com.ikotori.coolweather.util.AppExecutors;
 import com.ikotori.coolweather.util.HttpUtils;
+import com.socks.library.KLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -249,6 +250,7 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
                         try {
                             JSONObject object = new JSONObject(response.body().string());
                             object = object.getJSONArray(HeWeatherApi.BODY_TAG).getJSONObject(0);
+                            KLog.d(object);
                             if (object.getString("status").equals("ok")) {
                                 final AirNow now = new Gson().fromJson(object.getString("air_now_city"), AirNow.class);
                                 now.cid = cid;
