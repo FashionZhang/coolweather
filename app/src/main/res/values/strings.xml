@@ -10,6 +10,9 @@
     <string name="more_setting">更多选项</string>
     <string name="share">分享</string>
     <string name="setting">设置</string>
+    <string name="city_manage">城市管理</string>
+    <string name="dismissed">已删除</string>
+    <string name="undo">撤销</string>
 
     <string name="search_city_name">城市或地区</string>
     <string name="no_match_result">没有匹配项</string>

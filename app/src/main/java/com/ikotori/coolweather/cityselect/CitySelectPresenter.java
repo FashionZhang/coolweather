@@ -56,11 +56,11 @@ public class CitySelectPresenter implements CitySelectContract.Presenter {
     }
 
     @Override
-    public void deleteCity(final QueryItem city) {
+    public void deleteCity(final QueryItem city, final int position) {
         mCitiesRepository.deleteCity(city.getCid(), new CitiesDataSource.DeleteCityCallback() {
             @Override
             public void onDeleteSuccess() {
-                mView.showDeleteCityUi(city);
+                mView.showDeleteCityUi(city, position);
             }
 
             @Override
@@ -81,6 +81,21 @@ public class CitySelectPresenter implements CitySelectContract.Presenter {
             @Override
             public void onDataNotAvailable() {
                 mView.showNoCity();
+            }
+        });
+    }
+
+    @Override
+    public void insertCity(QueryItem city) {
+        mCitiesRepository.insertCity(city, new CitiesDataSource.InsertCityCallback() {
+            @Override
+            public void onInsertSuccess() {
+
+            }
+
+            @Override
+            public void onInsertFail() {
+
             }
         });
     }

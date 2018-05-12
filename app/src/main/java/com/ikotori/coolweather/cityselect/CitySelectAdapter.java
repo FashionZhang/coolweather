@@ -19,11 +19,15 @@ import java.util.List;
  * Describe:
  */
 
-public class CitySelectAdapter extends RecyclerView.Adapter<CitySelectAdapter.CitySelectViewHolder> {
+public class CitySelectAdapter extends RecyclerView.Adapter<CitySelectAdapter.CitySelectViewHolder> implements OnMoveAndSwipedListener {
 
     private List<QueryItem> mCities;
 
     private CitySelectFragment.CitySelectListener mListener;
+
+    private final int TYPE_HOME = 0;
+
+    private final int TYPE_NORMAL = 1;
 
     public CitySelectAdapter(@NonNull CitySelectFragment.CitySelectListener listener) {
         mListener = listener;
@@ -57,9 +61,25 @@ public class CitySelectAdapter extends RecyclerView.Adapter<CitySelectAdapter.Ci
         });
     }
 
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? TYPE_HOME : TYPE_NORMAL;
+    }
+
     @Override
     public int getItemCount() {
         return null == mCities ? 0 : mCities.size();
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        return false;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mListener.onItemDismiss(position);
     }
 
     public static class CitySelectViewHolder extends RecyclerView.ViewHolder {
