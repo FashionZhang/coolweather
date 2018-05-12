@@ -106,7 +106,7 @@ public class CitySelectAdapter extends RecyclerView.Adapter<CitySelectAdapter.Ci
             mLocationView.setText(city.getLocation());
 
             if (city.isHome()) {
-                mIsHomeView.setImageResource(R.drawable.ic_home_black_24dp);
+                mIsHomeView.setImageResource(R.drawable.ic_home_white_24dp);
             } else {
                 mIsHomeView.setImageResource(R.drawable.ic_home_grey_500_24dp);
             }

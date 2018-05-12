@@ -118,7 +118,8 @@ public class CitySearchFragment extends Fragment implements CitySearchContract.V
 
     @Override
     public void showInsertCitySuccessUi() {
-        Snackbar.make(mNoResultView, "选择成功", Snackbar.LENGTH_SHORT).show();
+//        Snackbar.make(mNoResultView, "选择成功", Snackbar.LENGTH_SHORT).show();
+        getActivity().finish();
     }
 
     @Override
