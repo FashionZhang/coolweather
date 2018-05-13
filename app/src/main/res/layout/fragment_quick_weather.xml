@@ -39,7 +39,7 @@
         android:visibility="gone"
         android:orientation="vertical">
 
-        <include layout="@layout/weather_now" />
+        <include layout="@layout/quick_weather_now" />
     </LinearLayout>
 
     <LinearLayout

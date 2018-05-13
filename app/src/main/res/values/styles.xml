@@ -51,4 +51,8 @@
     </style>
     <style name="Transparent"></style>
 
+    <style name="QuickWeatherNow">
+        <item name="android:paddingTop">16dp</item>
+    </style>
+
 </resources>

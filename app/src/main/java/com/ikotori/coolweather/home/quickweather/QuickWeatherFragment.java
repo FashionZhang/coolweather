@@ -25,6 +25,7 @@ import com.ikotori.coolweather.citysearch.CitySearchFragment;
 import com.ikotori.coolweather.data.QueryItem;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.ikotori.coolweather.home.WeatherHomeActivity;
+import com.ikotori.coolweather.home.quickweather.Views.QuickWeatherNowViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherNowViews;
 import com.socks.library.KLog;
 
@@ -40,7 +41,7 @@ public class QuickWeatherFragment extends Fragment implements QuickWeatherContra
 
     private CitiesAdapter mCitiesAdapter;
 
-    private WeatherNowViews mWeatherNowViews;
+    private QuickWeatherNowViews mWeatherNowViews;
 
     private LinearLayout mWeatherView;
 
@@ -84,7 +85,7 @@ public class QuickWeatherFragment extends Fragment implements QuickWeatherContra
         mCitiesView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mCitiesView.setAdapter(mCitiesAdapter);
 
-        mWeatherNowViews = new WeatherNowViews(root);
+        mWeatherNowViews = new QuickWeatherNowViews(root);
         setHasOptionsMenu(true);
         return root;
     }
@@ -180,7 +181,9 @@ public class QuickWeatherFragment extends Fragment implements QuickWeatherContra
     public void showWeather(WeatherNow now) {
         changeTipsVisibility(View.GONE);
         mWeatherView.setVisibility(View.VISIBLE);
-        mWeatherNowViews.setWeatherNow(now);
+        KLog.d(now);
+//        mWeatherNowViews.setWeatherNow(now);
+        mWeatherNowViews.setData(now);
     }
 
     @Override
