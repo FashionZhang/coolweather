@@ -58,4 +58,7 @@
     <string name="weather_nome">天气</string>
     <string name="quick_weather">快速搜索</string>
     <string name="travel_weather">旅途天气</string>
+
+    <string name="my_location">我的位置</string>
+    <string name="destination">输入终点</string>
 </resources>
