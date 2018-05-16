@@ -26,6 +26,7 @@ import com.ikotori.coolweather.data.source.remote.WeatherRemoteDataSource;
 import com.ikotori.coolweather.data.source.repository.WeatherHomeRepository;
 import com.ikotori.coolweather.home.weather.WeatherPagerAdapterPresenter;
 import com.ikotori.coolweather.home.weather.WeatherFragment;
+import com.ikotori.coolweather.setting.SettingsActivity;
 import com.ikotori.coolweather.util.AppExecutors;
 import com.socks.library.KLog;
 
@@ -140,7 +141,8 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
 
     @Override
     public void showSettingUi() {
-
+        Intent intent = new Intent(getContext(), SettingsActivity.class);
+        startActivity(intent);
     }
 
     @Override

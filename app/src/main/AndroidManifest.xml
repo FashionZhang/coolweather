@@ -32,6 +32,12 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+        <activity
+            android:name=".setting.SettingsActivity"
+            android:theme="@style/ActionBar"
+            android:label="@string/setting" />
+        <activity
+            android:name=".about.AboutActivity" />
     </application>
 
 </manifest>
