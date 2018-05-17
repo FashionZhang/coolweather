@@ -171,4 +171,11 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
         });
     }
 
+    @Override
+    public void watchMoreWeather(@Nullable String location, @NonNull WeatherContract.View view) {
+        if (view.isActive()) {
+            view.showMoreWeather(location);
+        }
+    }
+
 }

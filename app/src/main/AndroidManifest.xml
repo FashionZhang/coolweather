@@ -34,10 +34,9 @@
         </activity>
         <activity
             android:name=".setting.SettingsActivity"
-            android:theme="@style/ActionBar"
-            android:label="@string/setting" />
-        <activity
-            android:name=".about.AboutActivity" />
+            android:label="@string/setting"
+            android:theme="@style/ActionBar" />
+        <activity android:name=".about.AboutActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -48,6 +47,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
+        <activity android:name=".moreweather.MoreWeatherActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

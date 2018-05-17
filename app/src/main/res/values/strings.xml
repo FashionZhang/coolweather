@@ -88,4 +88,6 @@
     </string>
     <string name="about_current_version">当前版本</string>
     <string name="abort_share">分享已中止</string>
+    <string name="power_by_weathercn">本页数据由中国天气通提供</string>
+    <string name="watch_more_weather"><u>查看更多天气情况</u></string>
 </resources>

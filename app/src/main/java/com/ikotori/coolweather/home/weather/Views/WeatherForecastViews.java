@@ -23,8 +23,20 @@ public class WeatherForecastViews {
 
     public LinearLayout mForecastContainer;
 
-    public WeatherForecastViews(View view) {
+    public TextView mWatchMoreWeatherView;
+
+    private WeatherForecastViewListener mListener;
+
+    public WeatherForecastViews(View view, WeatherForecastViewListener listener) {
+        mListener = listener;
         mForecastContainer = view.findViewById(R.id.forecast_container);
+        mWatchMoreWeatherView = view.findViewById(R.id.watch_more_weather);
+        mWatchMoreWeatherView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onWatcherMoreWeatherListener();
+            }
+        });
     }
 
     public void fillData(List<WeatherForecast> forecasts, Context context) {
@@ -46,5 +58,9 @@ public class WeatherForecastViews {
             }
             mForecastContainer.addView(forecastView);
         }
+    }
+
+    public interface  WeatherForecastViewListener {
+        void onWatcherMoreWeatherListener();
     }
 }

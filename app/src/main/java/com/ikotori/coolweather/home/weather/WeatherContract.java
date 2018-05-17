@@ -1,6 +1,7 @@
 package com.ikotori.coolweather.home.weather;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.ikotori.coolweather.BasePresenter;
 import com.ikotori.coolweather.BaseView;
@@ -39,6 +40,8 @@ public interface WeatherContract {
         void AirNowNotAvailable();
 
         void changeToolBarTitle();
+
+        void showMoreWeather(@Nullable String location);
     }
 
     public interface Presenter extends BasePresenter {
@@ -51,5 +54,7 @@ public interface WeatherContract {
         void loadWeatherHourlies(@NonNull String cid, @NonNull View view);
 
         void loadAirNow(@NonNull String cid, @NonNull View view);
+
+        void watchMoreWeather(@Nullable String location, @NonNull View view);
     }
 }

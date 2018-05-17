@@ -1,7 +1,9 @@
 package com.ikotori.coolweather.home.weather;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.ikotori.coolweather.home.weather.Views.AirNowViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherForecastViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherHourliesViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherNowViews;
+import com.ikotori.coolweather.moreweather.MoreWeatherActivity;
 import com.socks.library.KLog;
 
 import java.util.List;
@@ -26,9 +29,10 @@ import java.util.List;
  */
 public class WeatherFragment extends Fragment implements WeatherContract.View {
 
+    public final static String MORE_WEATHER_LOCATION = "location";
     public final static String CID = "cid";
     public final static String LOCATION = "location";
-    public static final String ISHOME = "isHome";
+    public static final String IS_HOME = "isHome";
     public TextView mWeatherView;
 
     private String cid;
@@ -58,7 +62,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         Bundle arguments = new Bundle();
         arguments.putString(CID, cid);
         arguments.putString(LOCATION, location);
-        arguments.putBoolean(ISHOME, isHome);
+        arguments.putBoolean(IS_HOME, isHome);
         WeatherFragment fragment = new WeatherFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -73,15 +77,23 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         Bundle intent = getArguments();
         cid = intent.getString(CID);
         location = intent.getString(LOCATION);
-        isHome = intent.getBoolean(ISHOME);
+        isHome = intent.getBoolean(IS_HOME);
 
         mWeatherNowViews = new WeatherNowViews(root);
-        mWeatherForecastViews = new WeatherForecastViews(root);
+        mWeatherForecastViews = new WeatherForecastViews(root, mWeatherForecastListener);
         mWeatherHourliesViews = new WeatherHourliesViews(root);
         mAirNowViews = new AirNowViews(root);
 
         return root;
     }
+
+
+    private WeatherForecastViews.WeatherForecastViewListener mWeatherForecastListener = new WeatherForecastViews.WeatherForecastViewListener() {
+        @Override
+        public void onWatcherMoreWeatherListener() {
+            mPresenter.watchMoreWeather(location, WeatherFragment.this);
+        }
+    };
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -170,6 +182,13 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         } else {
             showToolBarTitle(location,updateTime,isHome);
         }
+    }
+
+    @Override
+    public void showMoreWeather(@Nullable String location) {
+        Intent intent = new Intent(getContext(), MoreWeatherActivity.class);
+        intent.putExtra(MORE_WEATHER_LOCATION, location);
+        startActivity(intent);
     }
 
     private void showToolBarTitle(String title, String subTitle, boolean isHome) {
