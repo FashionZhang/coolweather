@@ -87,4 +87,5 @@
         \n本应用在运行过程中不会收集任何有关您或您设备的信息，应用所存储的任何数据都保存在您的设备上，不会上传到服务器。
     </string>
     <string name="about_current_version">当前版本</string>
+    <string name="abort_share">分享已中止</string>
 </resources>

@@ -2,18 +2,23 @@ package com.ikotori.coolweather.home;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ikotori.coolweather.R;
 
@@ -28,8 +33,10 @@ import com.ikotori.coolweather.home.weather.WeatherPagerAdapterPresenter;
 import com.ikotori.coolweather.home.weather.WeatherFragment;
 import com.ikotori.coolweather.setting.SettingsActivity;
 import com.ikotori.coolweather.util.AppExecutors;
+import com.ikotori.coolweather.util.FileUtils;
 import com.socks.library.KLog;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,7 +154,38 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
 
     @Override
     public void showShareUi() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
 
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_share, null, false);
+        view.layout(0, 0, width, height);
+        // TODO 填充真实数据
+        int measureWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+        int measureHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST);
+        view.measure(measureWidth, measureHeight);
+
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
+        view.layout(0, 0, view.getWidth(), view.getHeight());
+        view.draw(canvas);
+
+
+        File file = FileUtils.saveImage(bitmap, getActivity());
+        if (file != null) {
+            intent.putExtra(Intent.EXTRA_STREAM, FileUtils.getShareUri(file, getActivity()));
+            startActivity(Intent.createChooser(intent,"分享到"));
+        }else {
+            Toast.makeText(getActivity(), getString(R.string.abort_share), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
