@@ -31,7 +31,7 @@
                 android:id="@+id/weather_now_degree"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:text="@string/temperature_degree_default"
                 android:textSize="56sp" />
         </LinearLayout>
@@ -52,13 +52,15 @@
                 android:id="@+id/now_tmp_max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:text="最高温度"
                 android:textSize="@dimen/now_textSize" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
                 android:text="/"
                 android:textSize="@dimen/now_textSize" />
 
@@ -68,6 +70,13 @@
                 android:layout_height="wrap_content"
                 android:text="最低温度"
                 android:textSize="@dimen/now_textSize" />
+            <TextView
+                android:id="@+id/now_tmp_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/now_textSize"
+                android:text="@string/temperature_degree_celsius"
+                />
         </LinearLayout>
 
     </LinearLayout>

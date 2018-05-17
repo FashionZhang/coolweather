@@ -1,8 +1,10 @@
 package com.ikotori.coolweather.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,5 +32,16 @@ public class ActivityUtils {
             e.printStackTrace();
         }
         return versionName;
+    }
+
+    /**
+     * 获取温度单位设置,默认为1,即摄氏度
+     * @param context
+     * @return
+     */
+    public static Integer getTemperatureUnit(Context context) {
+        SharedPreferences defaultSharePreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String tmp =defaultSharePreferences.getString("temperature_unit", "1");
+        return Integer.valueOf(tmp);
     }
 }
