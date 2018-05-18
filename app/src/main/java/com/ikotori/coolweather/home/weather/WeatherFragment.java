@@ -57,6 +57,10 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     private SwipeRefreshLayout mRefreshView;
 
+    public WeatherNow mWeatherNowData;
+
+    public WeatherForecast mWeatherForecastData;
+
     private WeatherContract.Presenter mPresenter;
     public WeatherFragment() {
         // Required empty public constructor
@@ -153,6 +157,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     @Override
     public void weatherNowLoaded(WeatherNow weatherNow) {
+        mWeatherNowData = weatherNow;
         mWeatherNowViews.setWeatherNow(weatherNow);
         mAirNowViews.setWeatherNowData(weatherNow);
         updateTime = weatherNow.getLoc();
@@ -168,6 +173,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     public void weatherForecastsLoaded(List<WeatherForecast> forecasts) {
         KLog.d(forecasts);
         mWeatherNowViews.setWeatherTmp(forecasts.get(0));
+        mWeatherForecastData = forecasts.get(0);
         mWeatherForecastViews.fillData(forecasts, getActivity());
     }
 

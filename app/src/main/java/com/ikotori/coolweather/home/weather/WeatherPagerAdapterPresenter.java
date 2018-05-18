@@ -36,6 +36,10 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
         mRepository = repository;
     }
 
+    public WeatherContract.View getCurrentView() {
+        return mCurrentView;
+    }
+
     public void addFragment(Fragment fragment) {
         mFragments.add(fragment);
     }

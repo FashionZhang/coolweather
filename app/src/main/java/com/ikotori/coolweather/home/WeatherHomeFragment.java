@@ -18,12 +18,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ikotori.coolweather.R;
 
 import com.ikotori.coolweather.cityselect.CitySelectActivity;
 import com.ikotori.coolweather.data.QueryItem;
+import com.ikotori.coolweather.data.entity.WeatherForecast;
+import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.ikotori.coolweather.data.source.local.CitiesLocalDataSource;
 import com.ikotori.coolweather.data.source.local.CoolWeatherDatabase;
 import com.ikotori.coolweather.data.source.local.WeatherLocalDataSource;
@@ -33,6 +36,7 @@ import com.ikotori.coolweather.home.weather.WeatherPagerAdapterPresenter;
 import com.ikotori.coolweather.home.weather.WeatherFragment;
 import com.ikotori.coolweather.setting.SettingsActivity;
 import com.ikotori.coolweather.util.AppExecutors;
+import com.ikotori.coolweather.util.DateUtil;
 import com.ikotori.coolweather.util.FileUtils;
 import com.socks.library.KLog;
 
@@ -154,6 +158,12 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
 
     @Override
     public void showShareUi() {
+        WeatherNow weatherNow = null;
+        WeatherForecast weatherForecast = null;
+        if (mPageAdapter.getCurrentView() != null) {
+            weatherNow = ((WeatherFragment) mPageAdapter.getCurrentView()).mWeatherNowData;
+            weatherForecast = ((WeatherFragment) mPageAdapter.getCurrentView()).mWeatherForecastData;
+        }
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("image/*");
 
@@ -165,7 +175,18 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_share, null, false);
         view.layout(0, 0, width, height);
-        // TODO 填充真实数据
+        if (weatherNow != null && weatherForecast != null) {
+            TextView location = view.findViewById(R.id.location);
+            location.setText(weatherNow.getLocation());
+            TextView date = view.findViewById(R.id.date);
+            date.setText(DateUtil.formatStringDate(weatherNow.getLoc(), DateUtil.FORMAT_DEFAULT, DateUtil.FORMAT_MMDD_CN));
+            TextView temperature = view.findViewById(R.id.temperature_now);
+            temperature.setText(weatherNow.getTmp());
+            TextView cond = view.findViewById(R.id.cond_txt);
+            cond.setText(weatherNow.getCondTxt());
+            TextView temperatureRange = view.findViewById(R.id.temperature_range);
+            temperatureRange.setText(String.format("%s/%s°", weatherForecast.tmpMax,weatherForecast.tmpMin));
+        }
         int measureWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         int measureHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST);
         view.measure(measureWidth, measureHeight);
