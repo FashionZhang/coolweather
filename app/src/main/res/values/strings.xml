@@ -90,4 +90,14 @@
     <string name="abort_share">分享已中止</string>
     <string name="power_by_weathercn">本页数据由中国天气通提供</string>
     <string name="watch_more_weather"><u>查看更多天气情况</u></string>
+    <string name="between_tmp">~</string>
+    <string name="weather_feature">未来天气</string>
+    <string name="confirm">确定</string>
+    <string name="unit_km_per_hour">公里/小时</string>
+    <string name="unit_percent">%</string>
+    <string name="unit_mm">毫米</string>
+    <string name="unit_level">级</string>
+    <string name="unit_hPa">百帕</string>
+    <string name="unit_km">公里</string>
+
 </resources>

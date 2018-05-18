@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="8dp">
 
     <TextView
         android:id="@+id/forecast_date"
@@ -10,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="日期"
-        android:textSize="@dimen/forecast_textSize" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/forecast_cond"
@@ -18,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="天气"
-        android:textSize="@dimen/forecast_textSize" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,34 +34,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="26"
-            android:textSize="@dimen/forecast_textSize" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
             android:id="@+id/forecast_tmp_max_degree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/temperature_degree_default"
-            android:textSize="@dimen/forecast_textSize" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:text="~" />
+            android:text="@string/between_tmp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
             android:id="@+id/forecast_tmp_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="19"
-            android:textSize="@dimen/forecast_textSize" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
             android:id="@+id/forecast_tmp_min_degree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/temperature_degree_default"
-            android:textSize="@dimen/forecast_textSize" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
 </LinearLayout>

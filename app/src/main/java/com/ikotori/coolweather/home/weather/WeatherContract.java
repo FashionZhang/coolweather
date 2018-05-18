@@ -56,5 +56,7 @@ public interface WeatherContract {
         void loadAirNow(@NonNull String cid, @NonNull View view);
 
         void watchMoreWeather(@Nullable String location, @NonNull View view);
+
+        void refresh(@NonNull String cid, @NonNull View view);
     }
 }

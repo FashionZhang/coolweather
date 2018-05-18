@@ -380,4 +380,12 @@ public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSourc
         mCacheWeather.put(cid, weather);
     }
 
+
+    public void forceUpdate() {
+        mCacheWeatherIsInvalid = true;
+        mCacheWeatherNowIsInvalid = true;
+        mCacheWeatherForecastsIsInvalid = true;
+        mCacheWeatherHourliesIsInvalid = true;
+        mCacheAirNowIsInvalid = true;
+    }
 }

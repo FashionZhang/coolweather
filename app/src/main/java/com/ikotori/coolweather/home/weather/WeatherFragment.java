@@ -3,8 +3,10 @@ package com.ikotori.coolweather.home.weather;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import com.ikotori.coolweather.home.weather.Views.WeatherForecastViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherHourliesViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherNowViews;
 import com.ikotori.coolweather.moreweather.MoreWeatherActivity;
+import com.ikotori.coolweather.util.DateUtil;
 import com.socks.library.KLog;
 
 import java.util.List;
@@ -52,6 +55,8 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     private AirNowViews mAirNowViews;
 
+    private SwipeRefreshLayout mRefreshView;
+
     private WeatherContract.Presenter mPresenter;
     public WeatherFragment() {
         // Required empty public constructor
@@ -83,6 +88,22 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         mWeatherForecastViews = new WeatherForecastViews(root, mWeatherForecastListener);
         mWeatherHourliesViews = new WeatherHourliesViews(root);
         mAirNowViews = new AirNowViews(root);
+        mRefreshView = root.findViewById(R.id.refresh);
+        mRefreshView.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorAccent));
+        mRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.refresh(cid, WeatherFragment.this);
+                Runnable refreshEnd = new Runnable() {
+                    @Override
+                    public void run() {
+                        mRefreshView.setRefreshing(false);
+                    }
+                };
+                Handler handler = new Handler();
+                handler.postDelayed(refreshEnd, 2500);
+            }
+        });
 
         return root;
     }
@@ -180,7 +201,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         if (null == updateTime) {
 
         } else {
-            showToolBarTitle(location,updateTime,isHome);
+            showToolBarTitle(location, updateTime, isHome);
         }
     }
 
@@ -192,9 +213,11 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     }
 
     private void showToolBarTitle(String title, String subTitle, boolean isHome) {
+        String time = DateUtil.formatStringDate(updateTime, DateUtil.FORMAT_DEFAULT, DateUtil.FORMAT_HHMM);
+        time = String.format("更新时间 %s", time);
         KLog.d(title, subTitle, isHome);
         if (getParentFragment() instanceof ToolBarTitleListener) {
-            ((ToolBarTitleListener) getParentFragment()).showToolbarTitle(title,subTitle,isHome);
+            ((ToolBarTitleListener) getParentFragment()).showToolbarTitle(title,time,isHome);
         }
     }
 

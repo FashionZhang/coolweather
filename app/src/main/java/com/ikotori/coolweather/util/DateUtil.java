@@ -16,6 +16,8 @@ public class DateUtil {
 
     public static String FORMAT_MMDD_CN = "MM/dd";
 
+    public static String FORMAT_HHMM = "HH:mm";
+
     public static String formatStringDate(String date, String originFormat, String format) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(originFormat);
         try {

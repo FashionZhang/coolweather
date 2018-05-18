@@ -178,4 +178,11 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
         }
     }
 
+    @Override
+    public void refresh(@NonNull String cid, @NonNull WeatherContract.View view) {
+        mRepository.forceUpdate();
+        start(cid, view);
+    }
+
+
 }
