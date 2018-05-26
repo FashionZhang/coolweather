@@ -1,4 +1,4 @@
-package com.ikotori.coolweather.baiduruote;
+package com.ikotori.coolweather.baiduroute;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMap.OnPolylineClickListener;

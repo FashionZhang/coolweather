@@ -1,9 +1,8 @@
-package com.ikotori.coolweather.baiduruote;
+package com.ikotori.coolweather.baiduroute;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.widget.Button;
 

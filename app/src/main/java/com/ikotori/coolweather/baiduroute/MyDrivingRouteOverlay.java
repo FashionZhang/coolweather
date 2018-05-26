@@ -1,4 +1,4 @@
-package com.ikotori.coolweather.baiduruote;
+package com.ikotori.coolweather.baiduroute;
 
 import android.content.Context;
 

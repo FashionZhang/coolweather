@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
  */
-package com.ikotori.coolweather.baiduruote;
+package com.ikotori.coolweather.baiduroute;
 
 import android.content.Context;
 import android.view.LayoutInflater;
