@@ -6,24 +6,25 @@
     android:orientation="vertical"
     tools:context="com.ikotori.coolweather.home.travelweather.TravelWeatherFragment">
 
-  <!--  <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <!--  <android.support.design.widget.AppBarLayout
+          android:id="@+id/app_bar_layout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+          <android.support.v7.widget.Toolbar
+              android:id="@+id/toolbar"
+              android:layout_width="match_parent"
+              android:layout_height="?attr/actionBarSize"
+              android:background="?attr/colorPrimary"
+              app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        </android.support.v7.widget.Toolbar>
+          </android.support.v7.widget.Toolbar>
 
-    </android.support.design.widget.AppBarLayout>
--->
+      </android.support.design.widget.AppBarLayout>
+  -->
     <android.support.v7.widget.CardView
+        android:id="@+id/input_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="0dp"
@@ -32,8 +33,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,16 +53,16 @@
                     android:id="@+id/origin_region"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="auto"
                     android:background="@null"
+                    android:focusable="auto"
                     android:text="@string/my_location" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/colorDivider" />
 
             <LinearLayout
@@ -73,110 +74,79 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="4dp"
-                    android:scaleType="centerInside"
                     android:alpha="0.54"
+                    android:scaleType="centerInside"
                     app:srcCompat="@drawable/destination_black_24dp" />
 
                 <EditText
                     android:id="@+id/destination"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
                     android:background="@null"
+                    android:focusable="true"
                     android:hint="@string/destination" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end">
+
                 <Button
                     android:id="@+id/confirm"
-                    android:text="@string/confirm"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:theme="@style/MyButton"
+                    android:text="@string/confirm"
                     android:textColor="@color/colorAccent"
-                    />
+                    android:theme="@style/MyButton" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:visibility="gone"
-        android:id="@+id/result_head"
+    <TextView
+        android:id="@+id/change_to_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="2dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
-
-            <TextView
-                android:id="@+id/result_origin"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:gravity="center_vertical"
-                android:text="南京" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:alpha="0.54"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_arrow_forward_black_24dp" />
-
-            <TextView
-                android:id="@+id/result_destination"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:gravity="center_vertical"
-                android:text="武汉" />
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <TextView
-        android:id="@+id/weather_result"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:gravity="center"
+        android:text="@string/change_to_map"
+        android:textColor="@color/orange_primary"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/weather_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
         android:layout_marginBottom="52dp"
+        android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </android.support.v7.widget.RecyclerView>
 
-    <!--<LinearLayout
-        android:id="@+id/weather_container"
+    <RelativeLayout
+        android:id="@+id/mapRL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:orientation="vertical"
         android:visibility="gone">
 
         <Button
-            android:id="@+id/confirm"
-            android:layout_width="match_parent"
+            android:id="@+id/change_to_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="确定" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:text="@string/change_to_text" />
 
-        <TextView
-            android:id="@+id/weather_result"
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/mapView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="56dp">
 
-        &lt;!&ndash;<include layout="@layout/weather_now" />&ndash;&gt;
-    </LinearLayout>-->
+        </com.baidu.mapapi.map.MapView>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/tips"
