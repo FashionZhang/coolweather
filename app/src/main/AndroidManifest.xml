@@ -82,7 +82,7 @@
         <activity
             android:name=".moreweather.MoreWeatherActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".baiduroute.BaiduRouteDemoActivity"></activity>
+        <activity android:name=".baidumap.BaiduRouteDemoActivity"></activity>
     </application>
 
 </manifest>

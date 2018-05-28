@@ -1,6 +1,7 @@
 package com.ikotori.coolweather.home;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -21,15 +22,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ikotori.coolweather.GlobalApplication;
 import com.ikotori.coolweather.R;
 
 import com.ikotori.coolweather.cityselect.CitySelectActivity;
+import com.ikotori.coolweather.data.BaiduLocationDataSource;
 import com.ikotori.coolweather.data.QueryItem;
 import com.ikotori.coolweather.data.entity.WeatherForecast;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.ikotori.coolweather.data.source.local.CitiesLocalDataSource;
 import com.ikotori.coolweather.data.source.local.CoolWeatherDatabase;
 import com.ikotori.coolweather.data.source.local.WeatherLocalDataSource;
+import com.ikotori.coolweather.data.source.remote.QueryRemoteDataSource;
 import com.ikotori.coolweather.data.source.remote.WeatherRemoteDataSource;
 import com.ikotori.coolweather.data.source.repository.WeatherHomeRepository;
 import com.ikotori.coolweather.home.weather.WeatherPagerAdapterPresenter;
@@ -74,7 +78,7 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.start();
+//        mPresenter.start();
     }
 
     @Override
@@ -98,12 +102,16 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
         mPageAdapter = new WeatherPagerAdapterPresenter(getChildFragmentManager(),
                 WeatherHomeRepository.getInstance(CitiesLocalDataSource.getInstance(database.citiesDao(), new AppExecutors()),
                         WeatherLocalDataSource.getInstance(new AppExecutors(), database.weatherDao()),
-                        WeatherRemoteDataSource.getInstance(new AppExecutors())));
+                        WeatherRemoteDataSource.getInstance(new AppExecutors()),
+                        BaiduLocationDataSource.getInstance(((GlobalApplication)getActivity().getApplication()).mLocationService),
+                        QueryRemoteDataSource.getInstance()
+                ));
         mWeatherPager.setAdapter(mPageAdapter);
         mToolbar = (Toolbar) root.findViewById(R.id.toolbar);
         ((WeatherHomeActivity)getActivity()).setSupportActionBar(mToolbar);
         mActionBar = ((WeatherHomeActivity) getActivity()).getSupportActionBar();
         setHasOptionsMenu(true);
+        mPresenter.start();
         return root;
     }
 
@@ -223,7 +231,8 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
 
     @Override
     public void showNoCityUi() {
-        mNoCityView.setVisibility(View.VISIBLE);
+        KLog.d();
+//        mNoCityView.setVisibility(View.VISIBLE);
     }
 
     @Override

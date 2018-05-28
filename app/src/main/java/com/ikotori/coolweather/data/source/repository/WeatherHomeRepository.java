@@ -2,6 +2,8 @@ package com.ikotori.coolweather.data.source.repository;
 
 import android.support.annotation.NonNull;
 
+import com.baidu.location.BDLocation;
+import com.ikotori.coolweather.data.BaiduLocationDataSource;
 import com.ikotori.coolweather.data.QueryItem;
 import com.ikotori.coolweather.data.entity.AirNow;
 import com.ikotori.coolweather.data.entity.Weather;
@@ -9,6 +11,7 @@ import com.ikotori.coolweather.data.entity.WeatherForecast;
 import com.ikotori.coolweather.data.entity.WeatherHourly;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.ikotori.coolweather.data.source.CitiesDataSource;
+import com.ikotori.coolweather.data.source.QueryDataSource;
 import com.ikotori.coolweather.data.source.WeatherDataSource;
 import com.socks.library.KLog;
 
@@ -22,7 +25,7 @@ import java.util.Map;
  * Describe:
  */
 
-public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSource {
+public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSource, QueryDataSource {
 
     private static WeatherHomeRepository INSTANCE = null;
 
@@ -31,6 +34,10 @@ public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSourc
     private final WeatherDataSource mLocalWeatherDataSource;
 
     private final WeatherDataSource mRemoteWeatherDataSource;
+
+    private final BaiduLocationDataSource mLocationDataSource;
+
+    private final QueryDataSource mRemoteCityDataSource;
 
     //内存缓存数据
     private Map<String, Weather> mCacheWeather;
@@ -48,15 +55,19 @@ public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSourc
 
     private boolean mCacheAirNowIsInvalid = false;
 
-    private WeatherHomeRepository(@NonNull CitiesDataSource citiesDataSource, @NonNull WeatherDataSource local, @NonNull WeatherDataSource remote) {
+    private BDLocation mLocation;
+
+    private WeatherHomeRepository(@NonNull CitiesDataSource citiesDataSource, @NonNull WeatherDataSource local, @NonNull WeatherDataSource remote, @NonNull BaiduLocationDataSource locationDataSource, QueryDataSource remoteCityDataSource) {
         mCitiesDataSource = citiesDataSource;
         mLocalWeatherDataSource = local;
         mRemoteWeatherDataSource = remote;
+        mLocationDataSource = locationDataSource;
+        mRemoteCityDataSource = remoteCityDataSource;
     }
 
-    public static WeatherHomeRepository getInstance(@NonNull CitiesDataSource citiesDataSource, @NonNull WeatherDataSource local, @NonNull WeatherDataSource remote) {
+    public static WeatherHomeRepository getInstance(@NonNull CitiesDataSource citiesDataSource, @NonNull WeatherDataSource local, @NonNull WeatherDataSource remote, @NonNull BaiduLocationDataSource locationDataSource, @NonNull QueryDataSource remoteCityDataSource) {
         if (INSTANCE == null) {
-            INSTANCE = new WeatherHomeRepository(citiesDataSource, local, remote);
+            INSTANCE = new WeatherHomeRepository(citiesDataSource, local, remote, locationDataSource, remoteCityDataSource);
         }
         return INSTANCE;
     }
@@ -69,7 +80,7 @@ public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSourc
 
     @Override
     public void insertCity(@NonNull QueryItem city, @NonNull InsertCityCallback callback) {
-
+        mCitiesDataSource.insertCity(city, callback);
     }
 
     @Override
@@ -387,5 +398,36 @@ public class WeatherHomeRepository implements CitiesDataSource, WeatherDataSourc
         mCacheWeatherForecastsIsInvalid = true;
         mCacheWeatherHourliesIsInvalid = true;
         mCacheAirNowIsInvalid = true;
+    }
+
+    public void getLocation(boolean update, final BaiduLocationDataSource.LocationCallback callback) {
+        if (update) {
+            mLocation = null;
+        }
+        if (mLocation == null) {
+            mLocationDataSource.start(new BaiduLocationDataSource.LocationCallback() {
+                @Override
+                public void fail() {
+                    callback.fail();
+                }
+
+                @Override
+                public void success(BDLocation location) {
+                    mLocation = location;
+                    callback.success(location);
+                }
+            });
+        } else {
+            callback.success(mLocation);
+        }
+    }
+
+    public void stopLocationService() {
+        mLocationDataSource.stop();
+    }
+
+    @Override
+    public void getQueryResult(@NonNull String query, @NonNull QueryResultCallback callback) {
+        mRemoteCityDataSource.getQueryResult(query, callback);
     }
 }
