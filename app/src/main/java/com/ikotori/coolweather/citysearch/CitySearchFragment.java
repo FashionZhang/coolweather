@@ -1,6 +1,7 @@
 package com.ikotori.coolweather.citysearch;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 
 import com.ikotori.coolweather.R;
 import com.ikotori.coolweather.data.QueryItem;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ import java.util.List;
  */
 public class CitySearchFragment extends Fragment implements CitySearchContract.View{
 
+    public static final int REQUEST_CODE = 2;
 
     private CitySearchContract.Presenter mPresenter;
 
@@ -119,6 +122,7 @@ public class CitySearchFragment extends Fragment implements CitySearchContract.V
     @Override
     public void showInsertCitySuccessUi() {
 //        Snackbar.make(mNoResultView, "选择成功", Snackbar.LENGTH_SHORT).show();
+        getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
     }
 

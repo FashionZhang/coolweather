@@ -26,6 +26,7 @@ import com.ikotori.coolweather.GlobalApplication;
 import com.ikotori.coolweather.R;
 
 import com.ikotori.coolweather.cityselect.CitySelectActivity;
+import com.ikotori.coolweather.cityselect.CitySelectFragment;
 import com.ikotori.coolweather.data.BaiduLocationDataSource;
 import com.ikotori.coolweather.data.QueryItem;
 import com.ikotori.coolweather.data.entity.WeatherForecast;
@@ -52,7 +53,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WeatherHomeFragment extends Fragment implements WeatherHomeContract.View, WeatherFragment.ToolBarTitleListener{
+public class WeatherHomeFragment extends Fragment implements WeatherHomeContract.View, WeatherFragment.ToolBarTitleListener {
 
     private ViewPager mWeatherPager;
 
@@ -67,6 +68,9 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
 
     private ActionBar mActionBar;
 
+    private String mCityCid;
+
+    private List<QueryItem> mCities = new ArrayList<>();
     public WeatherHomeFragment() {
         // Required empty public constructor
     }
@@ -103,18 +107,17 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
                 WeatherHomeRepository.getInstance(CitiesLocalDataSource.getInstance(database.citiesDao(), new AppExecutors()),
                         WeatherLocalDataSource.getInstance(new AppExecutors(), database.weatherDao()),
                         WeatherRemoteDataSource.getInstance(new AppExecutors()),
-                        BaiduLocationDataSource.getInstance(((GlobalApplication)getActivity().getApplication()).mLocationService),
+                        BaiduLocationDataSource.getInstance(((GlobalApplication) getActivity().getApplication()).mLocationService),
                         QueryRemoteDataSource.getInstance()
                 ));
         mWeatherPager.setAdapter(mPageAdapter);
         mToolbar = (Toolbar) root.findViewById(R.id.toolbar);
-        ((WeatherHomeActivity)getActivity()).setSupportActionBar(mToolbar);
+        ((WeatherHomeActivity) getActivity()).setSupportActionBar(mToolbar);
         mActionBar = ((WeatherHomeActivity) getActivity()).getSupportActionBar();
         setHasOptionsMenu(true);
         mPresenter.start();
         return root;
     }
-
 
 
     @Override
@@ -141,6 +144,32 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
         return true;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        boolean shouldRestart = data.getBooleanExtra(CitySelectFragment.ADD_DELETE, false);
+        if (resultCode == Activity.RESULT_OK) {
+            mCityCid = data.getStringExtra(CitySelectFragment.PAGE_INDEX);
+            if (!shouldRestart) {
+                reselectItem();
+            }
+        }
+        if (shouldRestart) {
+            mPresenter.start();
+        }
+    }
+
+    private void reselectItem() {
+        if (null == mCityCid) {
+        } else {
+            for (int i = 0; i < mCities.size(); i++) {
+                if (mCities.get(i).getCid().equals(mCityCid)) {
+                    mWeatherPager.setCurrentItem(i);
+                    return;
+                }
+            }
+            mWeatherPager.setCurrentItem(0);
+        }
+    }
 
     @Override
     public void setPresenter(WeatherHomeContract.Presenter presenter) {
@@ -155,7 +184,7 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
     @Override
     public void showCitySelectUi() {
         Intent intent = new Intent(getContext(), CitySelectActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, CitySelectFragment.REQUEST_CODE);
     }
 
     @Override
@@ -193,7 +222,7 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
             TextView cond = view.findViewById(R.id.cond_txt);
             cond.setText(weatherNow.getCondTxt());
             TextView temperatureRange = view.findViewById(R.id.temperature_range);
-            temperatureRange.setText(String.format("%s/%s°", weatherForecast.tmpMax,weatherForecast.tmpMin));
+            temperatureRange.setText(String.format("%s/%s°", weatherForecast.tmpMax, weatherForecast.tmpMin));
         }
         int measureWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         int measureHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST);
@@ -211,28 +240,33 @@ public class WeatherHomeFragment extends Fragment implements WeatherHomeContract
         File file = FileUtils.saveImage(bitmap, getActivity());
         if (file != null) {
             intent.putExtra(Intent.EXTRA_STREAM, FileUtils.getShareUri(file, getActivity()));
-            startActivity(Intent.createChooser(intent,"分享到"));
-        }else {
+            startActivity(Intent.createChooser(intent, "分享到"));
+        } else {
             Toast.makeText(getActivity(), getString(R.string.abort_share), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void allCitiesLoaded(List<QueryItem> cities) {
+        mWeatherPager.setVisibility(View.VISIBLE);
         KLog.d(cities);
+        mCities = cities;
         List<Fragment> fragments = new ArrayList<>();
-        for (QueryItem city : cities) {
+        for (int i = 0; i < cities.size(); i++) {
+            QueryItem city = cities.get(i);
             WeatherFragment fragment = WeatherFragment.getInstance(city.getCid(), city.getLocation(), city.isHome());
             fragments.add(fragment);
         }
         mPageAdapter.setNewFragments(fragments);
         mPageAdapter.notifyDataSetChanged();
+        reselectItem();
     }
 
     @Override
     public void showNoCityUi() {
+        mWeatherPager.setVisibility(View.GONE);
         KLog.d();
-//        mNoCityView.setVisibility(View.VISIBLE);
+        mNoCityView.setVisibility(View.VISIBLE);
     }
 
     @Override

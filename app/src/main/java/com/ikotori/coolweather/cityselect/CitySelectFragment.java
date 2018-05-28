@@ -1,6 +1,7 @@
 package com.ikotori.coolweather.cityselect;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +18,7 @@ import android.view.ViewGroup;
 import com.ikotori.coolweather.R;
 import com.ikotori.coolweather.citysearch.CitySearchActivity;
 import com.ikotori.coolweather.data.QueryItem;
-import com.socks.library.KLog;
 
-import java.util.Collections;
 import java.util.List;
 
 
@@ -28,6 +26,11 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class CitySelectFragment extends Fragment implements CitySelectContract.View {
+    public static final int REQUEST_CODE = 1;
+
+    public static final String PAGE_INDEX = "page_index";
+
+    public static final String ADD_DELETE = "add_delete";
 
     private CitySelectContract.Presenter mPresenter;
 
@@ -38,6 +41,12 @@ public class CitySelectFragment extends Fragment implements CitySelectContract.V
     private CitySelectAdapter mAdapter;
 
     private List<QueryItem> mCities;
+
+    //用来记录是否增加或删除城市,该结果会影响到主页的城市的重新加载
+    private boolean mAdd = false;
+    private int mDelete = 0;
+
+    private Intent returnData = new Intent();
 
     public static CitySelectFragment newInstance() {
         return new CitySelectFragment();
@@ -84,6 +93,14 @@ public class CitySelectFragment extends Fragment implements CitySelectContract.V
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            mAdd = true;
+            updateAddDelete();
+        }
+    }
+
+    @Override
     public void setPresenter(CitySelectContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -96,12 +113,17 @@ public class CitySelectFragment extends Fragment implements CitySelectContract.V
     @Override
     public void showCitySearchUi() {
         Intent intent = new Intent(getContext(), CitySearchActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,CitySelectFragment.REQUEST_CODE);
     }
 
     @Override
     public void showCitySelectUi(QueryItem city) {
-        Snackbar.make(mNoCityView, "你点击了" + city.getLocation(), Snackbar.LENGTH_SHORT).show();
+//        Snackbar.make(mNoCityView, "你点击了" + city.getLocation(), Snackbar.LENGTH_SHORT).show();
+        //将当前选择的城市cid回传给主页.
+        returnData.putExtra(PAGE_INDEX, city.getCid());
+        returnData.putExtra(ADD_DELETE, mAdd | (mDelete > 0));
+        getActivity().setResult(Activity.RESULT_OK, returnData);
+        getActivity().finish();
     }
 
 
@@ -122,6 +144,8 @@ public class CitySelectFragment extends Fragment implements CitySelectContract.V
                         mPresenter.insertCity(city);
                         mCities.add(position, city);
                         mAdapter.notifyItemInserted(position);
+                        mDelete -= 1;
+                        updateAddDelete();
                     }
                 })
                 .show();
@@ -153,16 +177,20 @@ public class CitySelectFragment extends Fragment implements CitySelectContract.V
         } else {
             for (int i = 0; i < mCities.size(); i++) {
                 QueryItem homeCity = mCities.get(i);
-                if (homeCity.isHome()) {
-//                    mCities.remove(i);
-//                    mCities.add(0, homeCity);
-                    Collections.swap(mCities, i, 0);
+                if (homeCity.isHome() && i > 0) {
+                    mCities.remove(i);
+                    mCities.add(0, homeCity);
+//                    Collections.swap(mCities, i, 0);
                     break;
                 }
             }
             hideNoCity();
         }
         mAdapter.setData(mCities);
+    }
+
+    private void updateAddDelete() {
+        ((CitySelectActivity) getActivity()).mAddDelete = mAdd | (mDelete>0);
     }
 
     private CitySelectListener mListener = new CitySelectListener() {
@@ -174,6 +202,8 @@ public class CitySelectFragment extends Fragment implements CitySelectContract.V
         @Override
         public void onItemDismiss(int position) {
             mPresenter.deleteCity(mCities.get(position), position);
+            mDelete += 1;
+            updateAddDelete();
         }
 
         @Override
