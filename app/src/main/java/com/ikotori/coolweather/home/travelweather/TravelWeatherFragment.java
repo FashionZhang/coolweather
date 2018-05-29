@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.Selection;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -39,6 +41,7 @@ import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.ikotori.coolweather.GlobalApplication;
 import com.ikotori.coolweather.R;
 import com.ikotori.coolweather.baidumap.DrivingRouteOverlay;
 import com.ikotori.coolweather.baidumap.MyDrivingRouteOverlay;
@@ -207,8 +210,8 @@ public class TravelWeatherFragment extends Fragment implements TravelWeatherCont
             mCityListView.setLayoutManager(new LinearLayoutManager(getContext()));
             mCityListView.setAdapter(mCitiesAdapter);
 
-            //搜索框默认展开
-            searchView.setIconifiedByDefault(false);
+            //不显示搜索(放大镜图标)
+            searchView.setIconifiedByDefault(true);
             closeView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -219,6 +222,11 @@ public class TravelWeatherFragment extends Fragment implements TravelWeatherCont
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     if (null != query && query.trim().length() > 0) {
+                        // 当用户搜索我的位置时直接返回,并获取全局的位置信息
+                        if (query.equals(getString(R.string.my_location))) {
+                            mOriginCity = GlobalApplication.mLocationCity;
+                            mFullScreenDialog.dismiss();
+                        }
                         mPresenter.queryCity(query.trim());
                     }
                     return true;
@@ -234,14 +242,18 @@ public class TravelWeatherFragment extends Fragment implements TravelWeatherCont
             });
         }
 
+       /* int textId = searchView.getContext().getResources().getIdentifier(
+                "android:id/search_src_text", null, null
+        );*/
         searchView.setIconified(false);
-        if (null != query) {
-            searchView.setQuery(query, false);
-            searchView.setQueryHint("");
-        } else {
-            //清除旧文本
-            searchView.setIconified(true);
-            searchView.setQueryHint(getString(R.string.destination));
+        searchView.setQuery(query, false);
+
+        searchView.setQueryHint(getString(R.string.destination));
+
+        /* 设置搜索框的输入框默认选中所有文字 */
+        if (searchView != null) {
+            SearchView.SearchAutoComplete textView = searchView.findViewById(R.id.search_src_text);
+            textView.selectAll();
         }
 
         mCitiesAdapter = new CitiesAdapter(new CitySearchFragment.QueryItemListener() {
@@ -339,14 +351,24 @@ public class TravelWeatherFragment extends Fragment implements TravelWeatherCont
                     mPresenter.queryWeathers(mOriginCity.getLon(), mOriginCity.getLat(), mDestinationCity.getLon(), mDestinationCity.getLat());
                     mBaiduMap.clear();
                     searchRoute();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.please_input_origin_and_destination), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.destination:
-                showFullScreenDialog(null, DESTINATION);
+                String queryD = "";
+                if (mDestinationCity != null) {
+                    queryD = mDestinationCity.getLocation();
+                }
+                showFullScreenDialog(queryD, DESTINATION);
                 mWeatherListView.setVisibility(View.GONE);
                 break;
             case R.id.origin_region:
-                showFullScreenDialog(getString(R.string.my_location), ORIGIN);
+                String query = getString(R.string.my_location);
+                if (mOriginCity != null) {
+                    query = mOriginCity.getLocation();
+                }
+                showFullScreenDialog(query, ORIGIN);
                 mWeatherListView.setVisibility(View.GONE);
                 break;
             case R.id.change_to_text:
@@ -477,6 +499,7 @@ public class TravelWeatherFragment extends Fragment implements TravelWeatherCont
 
     /**
      * 生成城市天气信息的详细卡片视图
+     *
      * @param cityWeather
      * @param view
      * @return
@@ -524,6 +547,7 @@ public class TravelWeatherFragment extends Fragment implements TravelWeatherCont
 
     /**
      * 生成城市天气信息的预览卡片视图
+     *
      * @param cityWeather
      * @param view
      * @return

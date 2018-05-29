@@ -2,9 +2,11 @@ package com.ikotori.coolweather;
 
 import android.app.Application;
 
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.ikotori.coolweather.baidumap.LocationService;
+import com.ikotori.coolweather.data.QueryItem;
 import com.socks.library.KLog;
 
 /**
@@ -13,6 +15,12 @@ import com.socks.library.KLog;
  */
 
 public class GlobalApplication extends Application {
+
+    /* 用于全局共享我的位置 */
+    public static BDLocation mLocation = null;
+
+    /* 用于共享我的位置的地区信息 */
+    public static QueryItem mLocationCity = null;
 
 
     public LocationService mLocationService;

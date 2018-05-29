@@ -36,8 +36,7 @@
                 android:layout_gravity="center_vertical"
                 app:defaultQueryHint="@string/destination"
                 android:background="@null"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp" />
+                />
 
         </LinearLayout>
 

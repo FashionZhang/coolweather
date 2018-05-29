@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.baidu.location.BDLocation;
+import com.ikotori.coolweather.GlobalApplication;
 import com.ikotori.coolweather.data.BaiduLocationDataSource;
 import com.ikotori.coolweather.data.QueryItem;
 import com.ikotori.coolweather.data.source.CitiesDataSource;
@@ -74,12 +75,14 @@ public class WeatherHomePresenter implements WeatherHomeContract.Presenter {
 
                             @Override
                             public void success(BDLocation location) {
+                                GlobalApplication.mLocation = location;
                                 KLog.d(location.getAddress() + location.getCity() + location.getDistrict() + "," + location.getLongitude() + ", " + location.getLatitude());
                                 mHomeRepository.getQueryResult(String.format("%s,%s", location.getLongitude(), location.getLatitude()), new QueryDataSource.QueryResultCallback() {
                                     @Override
                                     public void onQueryResultLoaded(List<QueryItem> queryItems) {
                                         KLog.d(queryItems);
                                         locationCity[0] = queryItems.get(0);
+                                        GlobalApplication.mLocationCity = queryItems.get(0);
                                         latch.countDown();
                                     }
 
