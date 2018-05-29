@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 
 import com.ikotori.coolweather.R;
 import com.ikotori.coolweather.data.QueryItem;
-import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -36,6 +35,7 @@ public class CitySearchFragment extends Fragment implements CitySearchContract.V
     private CitiesAdapter mAdapter;
 
     private View mNoResultView;
+    private RecyclerView mRecyclerView;
 
     public static CitySearchFragment newInstance() {
         return new CitySearchFragment();
@@ -54,9 +54,9 @@ public class CitySearchFragment extends Fragment implements CitySearchContract.V
         setHasOptionsMenu(true);
 
         mAdapter = new CitiesAdapter(mQueryItemListener);
-        RecyclerView recyclerView = root.findViewById(R.id.query_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(mAdapter);
+        mRecyclerView = root.findViewById(R.id.query_list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setAdapter(mAdapter);
 
         mNoResultView = root.findViewById(R.id.noResult);
         return root;
@@ -107,11 +107,13 @@ public class CitySearchFragment extends Fragment implements CitySearchContract.V
     public void showMatchResult(List<QueryItem> resultList) {
         mNoResultView.setVisibility(View.GONE);
         mAdapter.setData(resultList);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showNoMatchResult() {
         mNoResultView.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
     }
 
     @Override

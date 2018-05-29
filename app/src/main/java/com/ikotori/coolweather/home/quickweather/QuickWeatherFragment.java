@@ -29,6 +29,7 @@ import com.ikotori.coolweather.home.quickweather.Views.QuickWeatherNowViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherNowViews;
 import com.socks.library.KLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -167,6 +168,7 @@ public class QuickWeatherFragment extends Fragment implements QuickWeatherContra
     public void showNoMatchCity() {
         changeTipsVisibility(View.VISIBLE);
         mTipsTextView.setText(R.string.no_match_result);
+        mCitiesAdapter.setData(new ArrayList<QueryItem>(0));
         mTipsImageView.setImageResource(R.drawable.ic_inbox_black_48dp);
     }
 

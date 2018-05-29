@@ -274,12 +274,12 @@ public class TravelWeatherFragment extends Fragment implements TravelWeatherCont
     @Override
     public void showMatchCities(List<QueryItem> resultList) {
         mCitiesAdapter.setData(resultList);
-        mCitiesAdapter.notifyDataSetChanged();
+//        mCitiesAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showNoMatchCity() {
-
+        mCitiesAdapter.setData(new ArrayList<QueryItem>(0));
     }
 
     @Override
