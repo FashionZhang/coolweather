@@ -208,8 +208,12 @@ public class TravelWeatherFragment extends Fragment implements TravelWeatherCont
             searchView = mFullScreenDialog.findViewById(R.id.dialog_searchview);
             mCityListView = mFullScreenDialog.findViewById(R.id.city_list);
             mCityListView.setLayoutManager(new LinearLayoutManager(getContext()));
-            mCityListView.setAdapter(mCitiesAdapter);
+            //添加分割线
+            android.support.v7.widget.DividerItemDecoration dividerItemDecoration = new android.support.v7.widget.DividerItemDecoration(getActivity(), android.support.v7.widget.DividerItemDecoration.VERTICAL);
+            dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
+            mCityListView.addItemDecoration(dividerItemDecoration);
 
+            mCityListView.setAdapter(mCitiesAdapter);
             //不显示搜索(放大镜图标)
             searchView.setIconifiedByDefault(true);
             closeView.setOnClickListener(new View.OnClickListener() {

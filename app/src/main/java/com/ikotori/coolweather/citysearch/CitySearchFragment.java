@@ -56,7 +56,12 @@ public class CitySearchFragment extends Fragment implements CitySearchContract.V
         mAdapter = new CitiesAdapter(mQueryItemListener);
         mRecyclerView = root.findViewById(R.id.query_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        //添加分割线
+        android.support.v7.widget.DividerItemDecoration dividerItemDecoration = new android.support.v7.widget.DividerItemDecoration(getActivity(), android.support.v7.widget.DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mRecyclerView.setAdapter(mAdapter);
+
 
         mNoResultView = root.findViewById(R.id.noResult);
         return root;

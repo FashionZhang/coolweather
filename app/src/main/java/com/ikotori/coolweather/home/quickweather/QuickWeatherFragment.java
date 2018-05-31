@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.ikotori.coolweather.R;
 import com.ikotori.coolweather.citysearch.CitiesAdapter;
 import com.ikotori.coolweather.citysearch.CitySearchFragment;
+import com.ikotori.coolweather.customview.DividerItemDecoration;
 import com.ikotori.coolweather.data.QueryItem;
 import com.ikotori.coolweather.data.entity.WeatherNow;
 import com.ikotori.coolweather.home.WeatherHomeActivity;
@@ -84,6 +85,11 @@ public class QuickWeatherFragment extends Fragment implements QuickWeatherContra
 
         mCitiesAdapter = new CitiesAdapter(mCitySelectListener);
         mCitiesView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        //添加分割线
+//        mCitiesView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST, R.drawable.divider));
+        android.support.v7.widget.DividerItemDecoration dividerItemDecoration = new android.support.v7.widget.DividerItemDecoration(getActivity(), android.support.v7.widget.DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
+        mCitiesView.addItemDecoration(dividerItemDecoration);
         mCitiesView.setAdapter(mCitiesAdapter);
 
         mWeatherNowViews = new QuickWeatherNowViews(root);
