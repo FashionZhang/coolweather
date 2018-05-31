@@ -70,7 +70,6 @@ public class WeatherHomeActivity extends AppCompatActivity {
 
         BottomNavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        initViewPager();
         getPermissions();
 
     }
@@ -124,6 +123,8 @@ public class WeatherHomeActivity extends AppCompatActivity {
             }
             if (permissions.size() > 0) {
                 requestPermissions(permissions.toArray(new String[permissions.size()]), SDK_PERMISSION_REQUEST);
+            } else {
+                initViewPager();
             }
         }
     }
@@ -148,6 +149,6 @@ public class WeatherHomeActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         // TODO Auto-generated method stub
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
+        initViewPager();
     }
 }

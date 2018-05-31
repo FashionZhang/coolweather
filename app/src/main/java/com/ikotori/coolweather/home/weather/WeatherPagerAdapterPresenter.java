@@ -92,7 +92,8 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
     public void start(@NonNull String cid, @NonNull WeatherContract.View view) {
         loadWeatherNow(cid, view);
         loadWeatherForecast(cid, view);
-        loadWeatherHourlies(cid, view);
+        //逐小时预报普通用户无法获取
+//        loadWeatherHourlies(cid, view);
         loadAirNow(cid, view);
     }
 
@@ -184,7 +185,7 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
 
     @Override
     public void refresh(@NonNull String cid, @NonNull WeatherContract.View view) {
-        mRepository.forceUpdate();
+        mRepository.forceUpdate(cid);
         start(cid, view);
     }
 

@@ -123,7 +123,7 @@ public class WeatherHomePresenter implements WeatherHomeContract.Presenter {
                 location.start();
                 city.start();
                 try {
-                    latch.await();
+                    latch.await(5, TimeUnit.SECONDS);
                     mHomeRepository.stopLocationService();
                     Handler mainThreadHandler = new Handler(Looper.getMainLooper());
                     Runnable runnable = new Runnable() {
