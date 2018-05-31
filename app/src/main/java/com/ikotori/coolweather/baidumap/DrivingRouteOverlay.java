@@ -57,7 +57,8 @@ public class DrivingRouteOverlay extends OverlayManager {
             for (DrivingRouteLine.DrivingStep step : mRouteLine.getAllStep()) {
                 Bundle b = new Bundle();
                 b.putInt("index", mRouteLine.getAllStep().indexOf(step));
-                if (step.getEntrance() != null) {
+                //不绘制箭头
+               /* if (step.getEntrance() != null) {
                     overlayOptionses.add((new MarkerOptions())
                             .position(step.getEntrance().getLocation())
                                     .anchor(0.5f, 0.5f)
@@ -77,7 +78,7 @@ public class DrivingRouteOverlay extends OverlayManager {
                             .icon(BitmapDescriptorFactory
                                     .fromAssetWithDpi("Icon_line_node.png")));
 
-                }
+                }*/
             }
         }
 
