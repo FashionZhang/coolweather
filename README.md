@@ -2,6 +2,8 @@
 
 ### 天气数据来源 [和风天气](www.heweather.com)
 
+### [项目地址](https://github.com/FashionZhang/coolweather)
+
 ### 运行须知
 + 需要自己提供.jks签名文件
 + 如需正常使用定位功能,请将AndroidMainfest中的com.baidu.lbsapi.API_KEY更换为自己申请的百度地图key.
