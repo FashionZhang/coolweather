@@ -1,5 +1,6 @@
 package com.ikotori.coolweather.cityselect;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,9 +13,10 @@ import com.ikotori.coolweather.data.source.remote.QueryRemoteDataSource;
 import com.ikotori.coolweather.data.source.repository.CitiesRepository;
 import com.ikotori.coolweather.util.ActivityUtils;
 import com.ikotori.coolweather.util.AppExecutors;
+import com.socks.library.KLog;
 
 public class CitySelectActivity extends AppCompatActivity {
-
+    public boolean mAddDelete = false;
 
     private CitySelectPresenter mPresenter;
     @Override
@@ -25,6 +27,7 @@ public class CitySelectActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.city_manage);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
@@ -45,5 +48,14 @@ public class CitySelectActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(CitySelectFragment.ADD_DELETE, mAddDelete);
+        KLog.d(">>>:" + mAddDelete);
+        setResult(RESULT_CANCELED, intent);
+        super.onBackPressed();
     }
 }

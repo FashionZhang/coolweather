@@ -9,7 +9,8 @@
     <android.support.design.widget.AppBarLayout
         style="@style/AppTheme.AppBarOverlay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -38,6 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_add_white_24dp"/>
+            app:srcCompat="@drawable/ic_add_white_24dp"/>
     </android.support.design.widget.CoordinatorLayout>
 </android.support.constraint.ConstraintLayout>

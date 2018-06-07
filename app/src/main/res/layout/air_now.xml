@@ -1,260 +1,363 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/LinearLayoutTheme"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:elevation="2dp"
+    app:cardCornerRadius="2dp"
+    app:cardMaxElevation="8dp">
 
     <LinearLayout
-        android:id="@+id/left"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp">
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/left"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/air_now_qlty_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent" />
+            <android.support.constraint.ConstraintLayout style="@style/AirNowItem">
 
-            <TextView
-                android:id="@+id/air_now_qlty_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/air_now_qlty"
-                app:layout_constraintLeft_toRightOf="@id/air_now_qlty_img"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/air_now_qlty_img"
+                    style="@style/AirNowItemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.54"
+                    android:src="@drawable/cond_black_48dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
-            <TextView
-                android:id="@+id/air_now_qlty_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/air_now_qlty_img"
-                app:layout_constraintTop_toBottomOf="@id/air_now_qlty_label" />
-        </android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/air_now_qlty_label"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/air_now_qlty"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_qlty_img"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.constraint.ConstraintLayout
+                <TextView
+                    android:id="@+id/air_now_qlty_text"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_qlty_img"
+                    app:layout_constraintTop_toBottomOf="@id/air_now_qlty_label" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout style="@style/AirNowItem">
+
+                <ImageView
+                    android:id="@+id/air_now_main_img"
+                    style="@style/AirNowItemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.54"
+                    android:src="@drawable/main_black_48dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_main_label"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/air_now_main"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_main_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_main_text"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_main_img"
+                    app:layout_constraintTop_toBottomOf="@id/air_now_main_label" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout style="@style/AirNowItem">
+
+                <ImageView
+                    android:id="@+id/air_now_aqi_img"
+                    style="@style/AirNowItemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.54"
+                    android:src="@drawable/aqi_black_48dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_aqi_label"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/air_now_aqi"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_aqi_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_aqi_text"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_aqi_img"
+                    app:layout_constraintTop_toBottomOf="@id/air_now_aqi_label" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout style="@style/AirNowItem">
+
+                <ImageView
+                    android:id="@+id/air_now_pm25_img"
+                    style="@style/AirNowItemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.54"
+                    android:src="@drawable/pm25_black_48dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_pm25_label"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/air_now_pm25"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_pm25_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_pm25_text"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_pm25_img"
+                    app:layout_constraintTop_toBottomOf="@id/air_now_pm25_label" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout style="@style/AirNowItem">
+
+                <ImageView
+                    android:id="@+id/air_now_pres_img"
+                    style="@style/AirNowItemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.54"
+                    android:src="@drawable/pres_black_48dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_pres_label"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather_now_pres"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_pres_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_pres_text"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_pres_img"
+                    app:layout_constraintTop_toBottomOf="@id/air_now_pres_label" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:text="@string/unit_hPa"
+                    app:layout_constraintStart_toEndOf="@id/air_now_pres_text"
+                    app:layout_constraintTop_toTopOf="@id/air_now_pres_text"
+                    app:layout_constraintBottom_toBottomOf="@id/air_now_pres_text"/>
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/right"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/air_now_main_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent" />
+            <android.support.constraint.ConstraintLayout style="@style/AirNowItem">
 
-            <TextView
-                android:id="@+id/air_now_main_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/air_now_main"
-                app:layout_constraintLeft_toRightOf="@id/air_now_main_img"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/air_now_wind_img"
+                    style="@style/AirNowItemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.54"
+                    android:src="@drawable/wind_dir_black_48dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
-            <TextView
-                android:id="@+id/air_now_main_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/air_now_main_img"
-                app:layout_constraintTop_toBottomOf="@id/air_now_main_label" />
-        </android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/air_now_wind_label"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather_now_wind_dir"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_wind_img"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/air_now_wind_text"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_wind_img"
+                    app:layout_constraintTop_toBottomOf="@id/air_now_wind_label" />
 
-            <ImageView
-                android:id="@+id/air_now_aqi_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                <TextView
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:text="@string/unit_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/air_now_wind_text"
+                    app:layout_constraintTop_toTopOf="@id/air_now_wind_text"
+                    app:layout_constraintBottom_toBottomOf="@id/air_now_wind_text"/>
+            </android.support.constraint.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/air_now_aqi_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/air_now_aqi"
-                app:layout_constraintLeft_toRightOf="@id/air_now_aqi_img"
-                app:layout_constraintTop_toTopOf="parent" />
+            <android.support.constraint.ConstraintLayout style="@style/AirNowItem">
 
-            <TextView
-                android:id="@+id/air_now_aqi_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/air_now_aqi_img"
-                app:layout_constraintTop_toBottomOf="@id/air_now_aqi_label" />
-        </android.support.constraint.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/air_now_fl_img"
+                    style="@style/AirNowItemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.54"
+                    android:src="@drawable/temperature_black_48dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/air_now_fl_label"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather_now_fl"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_fl_img"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/air_now_pm25_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                <TextView
+                    android:id="@+id/air_now_fl_text"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_fl_img"
+                    app:layout_constraintTop_toBottomOf="@id/air_now_fl_label" />
 
-            <TextView
-                android:id="@+id/air_now_pm25_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/air_now_pm25"
-                app:layout_constraintLeft_toRightOf="@id/air_now_pm25_img"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:text="@string/temperature_degree_default"
+                    app:layout_constraintStart_toEndOf="@id/air_now_fl_text"
+                    app:layout_constraintTop_toTopOf="@id/air_now_fl_text"
+                    app:layout_constraintBottom_toBottomOf="@id/air_now_fl_text"/>
+            </android.support.constraint.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/air_now_pm25_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/air_now_pm25_img"
-                app:layout_constraintTop_toBottomOf="@id/air_now_pm25_label" />
-        </android.support.constraint.ConstraintLayout>
+            <android.support.constraint.ConstraintLayout style="@style/AirNowItem">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/air_now_hum_img"
+                    style="@style/AirNowItemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.54"
+                    android:src="@drawable/hum_black_48dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
-            <ImageView
-                android:id="@+id/air_now_pres_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                <TextView
+                    android:id="@+id/air_now_hum_label"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather_now_hum"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_hum_img"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/air_now_pres_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/weather_now_pres"
-                app:layout_constraintLeft_toRightOf="@id/air_now_pres_img"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/air_now_hum_text"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_hum_img"
+                    app:layout_constraintTop_toBottomOf="@id/air_now_hum_label" />
 
-            <TextView
-                android:id="@+id/air_now_pres_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/air_now_pres_img"
-                app:layout_constraintTop_toBottomOf="@id/air_now_pres_label" />
-        </android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:text="@string/unit_percent"
+                    app:layout_constraintStart_toEndOf="@id/air_now_hum_text"
+                    app:layout_constraintTop_toTopOf="@id/air_now_hum_text"
+                    app:layout_constraintBottom_toBottomOf="@id/air_now_hum_text"/>
+            </android.support.constraint.ConstraintLayout>
 
+            <android.support.constraint.ConstraintLayout style="@style/AirNowItem">
+
+                <ImageView
+                    android:id="@+id/air_now_vis_img"
+                    style="@style/AirNowItemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.54"
+                    android:src="@drawable/eye_black_48dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_vis_label"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather_now_vis"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_vis_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/air_now_vis_text"
+                    style="@style/AirNowItemTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintLeft_toRightOf="@id/air_now_vis_img"
+                    app:layout_constraintTop_toBottomOf="@id/air_now_vis_label" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:text="@string/unit_km"
+                    app:layout_constraintStart_toEndOf="@id/air_now_vis_text"
+                    app:layout_constraintTop_toTopOf="@id/air_now_vis_text"
+                    app:layout_constraintBottom_toBottomOf="@id/air_now_vis_text"/>
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/right"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/air_now_wind_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent" />
-
-            <TextView
-                android:id="@+id/air_now_wind_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/weather_now_wind_dir"
-                app:layout_constraintLeft_toRightOf="@id/air_now_wind_img"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/air_now_wind_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/air_now_wind_img"
-                app:layout_constraintTop_toBottomOf="@id/air_now_wind_label" />
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/air_now_fl_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent" />
-
-            <TextView
-                android:id="@+id/air_now_fl_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/weather_now_fl"
-                app:layout_constraintLeft_toRightOf="@id/air_now_fl_img"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/air_now_fl_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/air_now_fl_img"
-                app:layout_constraintTop_toBottomOf="@id/air_now_fl_label" />
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/air_now_hum_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent" />
-
-            <TextView
-                android:id="@+id/air_now_hum_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/weather_now_hum"
-                app:layout_constraintLeft_toRightOf="@id/air_now_hum_img"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/air_now_hum_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/air_now_hum_img"
-                app:layout_constraintTop_toBottomOf="@id/air_now_hum_label" />
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/air_now_vis_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent" />
-
-            <TextView
-                android:id="@+id/air_now_vis_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/weather_now_vis"
-                app:layout_constraintLeft_toRightOf="@id/air_now_vis_img"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/air_now_vis_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/air_now_vis_img"
-                app:layout_constraintTop_toBottomOf="@id/air_now_vis_label" />
-        </android.support.constraint.ConstraintLayout>
-
-    </LinearLayout>
-</LinearLayout>
+</android.support.v7.widget.CardView>

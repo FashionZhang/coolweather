@@ -1,8 +1,12 @@
 package com.ikotori.coolweather.home.weather;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +21,8 @@ import com.ikotori.coolweather.home.weather.Views.AirNowViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherForecastViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherHourliesViews;
 import com.ikotori.coolweather.home.weather.Views.WeatherNowViews;
+import com.ikotori.coolweather.moreweather.MoreWeatherActivity;
+import com.ikotori.coolweather.util.DateUtil;
 import com.socks.library.KLog;
 
 import java.util.List;
@@ -26,10 +32,18 @@ import java.util.List;
  */
 public class WeatherFragment extends Fragment implements WeatherContract.View {
 
+    public final static String MORE_WEATHER_LOCATION = "location";
     public final static String CID = "cid";
+    public final static String LOCATION = "location";
+    public static final String IS_HOME = "isHome";
     public TextView mWeatherView;
 
     private String cid;
+    private String location;
+    private Boolean isHome;
+
+    //天气信息更新时间
+    private String updateTime;
 
     private boolean isVisible;
 
@@ -41,15 +55,23 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     private AirNowViews mAirNowViews;
 
+    private SwipeRefreshLayout mRefreshView;
+
+    public WeatherNow mWeatherNowData;
+
+    public WeatherForecast mWeatherForecastData;
+
     private WeatherContract.Presenter mPresenter;
     public WeatherFragment() {
         // Required empty public constructor
     }
 
 
-    public static WeatherFragment getInstance(String cid) {
+    public static WeatherFragment getInstance(String cid, String location, Boolean isHome) {
         Bundle arguments = new Bundle();
         arguments.putString(CID, cid);
+        arguments.putString(LOCATION, location);
+        arguments.putBoolean(IS_HOME, isHome);
         WeatherFragment fragment = new WeatherFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -63,14 +85,40 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
         mWeatherView = root.findViewById(R.id.weather_now);
         Bundle intent = getArguments();
         cid = intent.getString(CID);
+        location = intent.getString(LOCATION);
+        isHome = intent.getBoolean(IS_HOME);
 
         mWeatherNowViews = new WeatherNowViews(root);
-        mWeatherForecastViews = new WeatherForecastViews(root);
+        mWeatherForecastViews = new WeatherForecastViews(root, mWeatherForecastListener);
         mWeatherHourliesViews = new WeatherHourliesViews(root);
         mAirNowViews = new AirNowViews(root);
+        mRefreshView = root.findViewById(R.id.refresh);
+        mRefreshView.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorAccent));
+        mRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.refresh(cid, WeatherFragment.this);
+                Runnable refreshEnd = new Runnable() {
+                    @Override
+                    public void run() {
+                        mRefreshView.setRefreshing(false);
+                    }
+                };
+                Handler handler = new Handler();
+                handler.postDelayed(refreshEnd, 2500);
+            }
+        });
 
         return root;
     }
+
+
+    private WeatherForecastViews.WeatherForecastViewListener mWeatherForecastListener = new WeatherForecastViews.WeatherForecastViewListener() {
+        @Override
+        public void onWatcherMoreWeatherListener() {
+            mPresenter.watchMoreWeather(location, WeatherFragment.this);
+        }
+    };
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -109,9 +157,11 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
 
     @Override
     public void weatherNowLoaded(WeatherNow weatherNow) {
-        KLog.d(this);
+        mWeatherNowData = weatherNow;
         mWeatherNowViews.setWeatherNow(weatherNow);
         mAirNowViews.setWeatherNowData(weatherNow);
+        updateTime = weatherNow.getLoc();
+        showToolBarTitle(location, weatherNow.getLoc(), isHome);
     }
 
     @Override
@@ -123,6 +173,7 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     public void weatherForecastsLoaded(List<WeatherForecast> forecasts) {
         KLog.d(forecasts);
         mWeatherNowViews.setWeatherTmp(forecasts.get(0));
+        mWeatherForecastData = forecasts.get(0);
         mWeatherForecastViews.fillData(forecasts, getActivity());
     }
 
@@ -149,5 +200,34 @@ public class WeatherFragment extends Fragment implements WeatherContract.View {
     @Override
     public void AirNowNotAvailable() {
 
+    }
+
+    @Override
+    public void changeToolBarTitle() {
+        if (null == updateTime) {
+
+        } else {
+            showToolBarTitle(location, updateTime, isHome);
+        }
+    }
+
+    @Override
+    public void showMoreWeather(@Nullable String location) {
+        Intent intent = new Intent(getContext(), MoreWeatherActivity.class);
+        intent.putExtra(MORE_WEATHER_LOCATION, location);
+        startActivity(intent);
+    }
+
+    private void showToolBarTitle(String title, String subTitle, boolean isHome) {
+        String time = DateUtil.formatStringDate(updateTime, DateUtil.FORMAT_DEFAULT, DateUtil.FORMAT_HHMM);
+        time = String.format("更新时间 %s", time);
+        KLog.d(title, subTitle, isHome);
+        if (getParentFragment() instanceof ToolBarTitleListener) {
+            ((ToolBarTitleListener) getParentFragment()).showToolbarTitle(title,time,isHome);
+        }
+    }
+
+    public interface ToolBarTitleListener {
+        void showToolbarTitle(String title, String subTitle, Boolean isHome);
     }
 }

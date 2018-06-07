@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentPadding="4dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:text="合肥肥东"
+            android:textColor="@color/blue_primary_dark"/>
+
+        <TextView
+            android:id="@+id/cond_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="晴"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_toEndOf="@id/location"
+            android:textColor="@color/blue_primary_dark"
+            android:layout_marginStart="4dp"
+            />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,5 +1,6 @@
 package com.ikotori.coolweather.home;
 
+import com.baidu.location.BDLocation;
 import com.ikotori.coolweather.BasePresenter;
 import com.ikotori.coolweather.BaseView;
 import com.ikotori.coolweather.data.QueryItem;
@@ -34,5 +35,8 @@ public interface WeatherHomeContract {
         void openShare();
 
         void loadAllCities();
+
+        void stopLocationService();
+
     }
 }

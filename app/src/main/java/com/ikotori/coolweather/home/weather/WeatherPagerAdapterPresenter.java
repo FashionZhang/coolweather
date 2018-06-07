@@ -36,6 +36,10 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
         mRepository = repository;
     }
 
+    public WeatherContract.View getCurrentView() {
+        return mCurrentView;
+    }
+
     public void addFragment(Fragment fragment) {
         mFragments.add(fragment);
     }
@@ -58,6 +62,7 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
     @Override
     public Fragment getItem(int position) {
         ((T) mFragments.get(position)).setPresenter(this);
+        ((T) mFragments.get(position)).changeToolBarTitle();
         return mFragments.get(position);
     }
 
@@ -87,7 +92,8 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
     public void start(@NonNull String cid, @NonNull WeatherContract.View view) {
         loadWeatherNow(cid, view);
         loadWeatherForecast(cid, view);
-        loadWeatherHourlies(cid, view);
+        //逐小时预报普通用户无法获取
+//        loadWeatherHourlies(cid, view);
         loadAirNow(cid, view);
     }
 
@@ -169,5 +175,19 @@ public class WeatherPagerAdapterPresenter<T extends WeatherFragment> extends Fra
             }
         });
     }
+
+    @Override
+    public void watchMoreWeather(@Nullable String location, @NonNull WeatherContract.View view) {
+        if (view.isActive()) {
+            view.showMoreWeather(location);
+        }
+    }
+
+    @Override
+    public void refresh(@NonNull String cid, @NonNull WeatherContract.View view) {
+        mRepository.forceUpdate(cid);
+        start(cid, view);
+    }
+
 
 }

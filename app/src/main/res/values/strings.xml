@@ -10,9 +10,13 @@
     <string name="more_setting">更多选项</string>
     <string name="share">分享</string>
     <string name="setting">设置</string>
+    <string name="city_manage">城市管理</string>
+    <string name="dismissed">已删除</string>
+    <string name="undo">撤销</string>
 
-    <string name="search_city_name">城市名</string>
+    <string name="search_city_name">城市或地区</string>
     <string name="no_match_result">没有匹配项</string>
+    <string name="quick_weather_guide">输入城市或地区名称即可快速查看天气</string>
 
     <string name="location">地区</string>
     <string name="parent_city">城市</string>
@@ -27,6 +31,7 @@
 
     <!--weatherHone 数据获取失败-->
     <string name="weather_now_not_available">当前没有实时天气数据</string>
+    <string name="weather_not_available">没有查询到天气数据,请稍后重试</string>
 
     <!--当前天气-->
     <string name="temperature_degree_default">°</string>
@@ -49,4 +54,53 @@
     <string name="weather_now_hum">湿度</string>
     <string name="weather_now_vis">能见度</string>
     <string name="weather_now_pres">气压</string>
+    <!--底部导航栏-->
+    <string name="weather_nome">天气</string>
+    <string name="quick_weather">快速搜索</string>
+    <string name="travel_weather">旅途天气</string>
+
+    <string name="my_location">我的位置</string>
+    <string name="destination">输入终点</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string-array name="list_preference_entries_temperature">
+        <item>℃-摄氏度</item>
+        <item>℉-华氏度</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_value_temperature">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <string name="pref_title_about">关于</string>
+    <string name="pref_title_temperature_unit">温度单位</string>
+    <string name="about_data_source">天气数据来源于和风天气</string>
+    <string name="user_agreement">用户须知</string>
+    <string name="user_agreement_content">
+        CoolWeather（下称本应用）所使用的天气数据全部来源于和风天气（www.heweather.com）。本应用尽量保证天气数据的及时性，但不保证天气数据的正确性。所提供的数据仅供参考，如您因使用本应用造成的任何损失，本应用概不承担。
+        \n本应用在运行过程中不会收集任何有关您或您设备的信息，应用所存储的任何数据都保存在您的设备上，不会上传到服务器。
+    </string>
+    <string name="about_current_version">当前版本</string>
+    <string name="abort_share">分享已中止</string>
+    <string name="power_by_weathercn">本页数据由中国天气通提供</string>
+    <string name="watch_more_weather"><u>查看更多天气情况</u></string>
+    <string name="between_tmp">~</string>
+    <string name="weather_feature">未来天气</string>
+    <string name="confirm">确定</string>
+    <string name="unit_km_per_hour">公里/小时</string>
+    <string name="unit_percent">%</string>
+    <string name="unit_mm">毫米</string>
+    <string name="unit_level">级</string>
+    <string name="unit_hPa">百帕</string>
+    <string name="unit_km">公里</string>
+    <string name="change_to_text">切换到文字</string>
+    <string name="change_to_map">在地图中显示</string>
+    <string name="please_input_origin_and_destination">请填写起点和终点</string>
+
 </resources>

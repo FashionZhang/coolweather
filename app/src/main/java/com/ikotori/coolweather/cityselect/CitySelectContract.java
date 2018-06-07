@@ -20,7 +20,7 @@ public interface CitySelectContract {
 
         void showSetHomeUi(QueryItem city);
 
-        void showDeleteCityUi(QueryItem city);
+        void showDeleteCityUi(QueryItem city, int position);
 
         void showFailUi();
 
@@ -36,8 +36,10 @@ public interface CitySelectContract {
 
         void setHome(QueryItem city, QueryItem originCity);
 
-        void deleteCity(QueryItem city);
+        void deleteCity(QueryItem city, int position);
 
         void loadCities();
+
+        void insertCity(QueryItem city);
     }
 }

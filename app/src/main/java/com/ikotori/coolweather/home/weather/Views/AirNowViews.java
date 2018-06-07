@@ -6,6 +6,8 @@ import android.widget.TextView;
 import com.ikotori.coolweather.R;
 import com.ikotori.coolweather.data.entity.AirNow;
 import com.ikotori.coolweather.data.entity.WeatherNow;
+import com.ikotori.coolweather.util.ActivityUtils;
+import com.ikotori.coolweather.util.StringUtil;
 
 /**
  * create by fashion at 2018/05/03 17:17
@@ -32,7 +34,10 @@ public class AirNowViews {
 
     private TextView mAirNowPresView;
 
+    private View root;
+
     public AirNowViews(View view) {
+        root = view;
         mAirNowQltyView = view.findViewById(R.id.air_now_qlty_text);
         mAirNowAqiView = view.findViewById(R.id.air_now_aqi_text);
         mAirNowMainView = view.findViewById(R.id.air_now_main_text);
@@ -53,7 +58,11 @@ public class AirNowViews {
     }
 
     public void setWeatherNowData(WeatherNow now) {
-        mAirNowFlView.setText(now.getFl());
+        if (ActivityUtils.getTemperatureUnit(root.getContext()) == 2) {
+            mAirNowFlView.setText(StringUtil.celsiusToFahrenheit(now.getFl()));
+        } else {
+            mAirNowFlView.setText(now.getFl());
+        }
         mAirNowWindLabel.setText(now.getWindDir());
         mAirNowWindView.setText(now.getWindSc());
         mAirNowHumView.setText(now.getHum());
